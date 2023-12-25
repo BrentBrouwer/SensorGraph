@@ -1,0 +1,65 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\ValorLocal\\Git\\GitRepositories\\GitHub\\Hobby\\SensorGraph\\SensorGraph\\SensorGraph\\SensorGraph.csproj": {}
+  },
+  "projects": {
+    "C:\\ValorLocal\\Git\\GitRepositories\\GitHub\\Hobby\\SensorGraph\\SensorGraph\\SensorGraph\\SensorGraph.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\ValorLocal\\Git\\GitRepositories\\GitHub\\Hobby\\SensorGraph\\SensorGraph\\SensorGraph\\SensorGraph.csproj",
+        "projectName": "SensorGraph",
+        "projectPath": "C:\\ValorLocal\\Git\\GitRepositories\\GitHub\\Hobby\\SensorGraph\\SensorGraph\\SensorGraph\\SensorGraph.csproj",
+        "packagesPath": "C:\\Users\\Valor\\.nuget\\packages\\",
+        "outputPath": "C:\\ValorLocal\\Git\\GitRepositories\\GitHub\\Hobby\\SensorGraph\\SensorGraph\\SensorGraph\\obj\\",
+        "projectStyle": "PackageReference",
+        "skipContentFileWrite": true,
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Valor\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net48"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\ProgramData\\Valor\\Nuget_Packages": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net48": {
+            "projectReferences": {}
+          }
+        }
+      },
+      "frameworks": {
+        "net48": {
+          "dependencies": {
+            "DynamicDataDisplay": {
+              "target": "Package",
+              "version": "[0.3.0.1, )"
+            }
+          }
+        }
+      },
+      "runtimes": {
+        "win": {
+          "#import": []
+        },
+        "win-arm64": {
+          "#import": []
+        },
+        "win-x64": {
+          "#import": []
+        },
+        "win-x86": {
+          "#import": []
+        }
+      }
+    }
+  }
+}

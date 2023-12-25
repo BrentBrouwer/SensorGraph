@@ -1,0 +1,43 @@
+﻿<Window x:Class="SensorGraph.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SensorGraph"
+        mc:Ignorable="d" 
+        xmlns:DDD="http://research.microsoft.com/DynamicDataDisplay/1.0"
+        Title="MainWindow" Height="450" Width="800" Loaded="PageLoaded" Closing="PageClosing">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <DDD:ChartPlotter Name="SensorGraph" Grid.Row="1" Grid.Column="1" Grid.RowSpan="8" Grid.ColumnSpan="6">
+            <DDD:ChartPlotter.HorizontalAxis>
+                <DDD:HorizontalDateTimeAxis Name="DateTimeAxis"/>
+            </DDD:ChartPlotter.HorizontalAxis>
+            <DDD:ChartPlotter.VerticalAxis>
+                <DDD:VerticalIntegerAxis Name="ValueAxis"/>
+            </DDD:ChartPlotter.VerticalAxis>
+        </DDD:ChartPlotter>
+    </Grid>
+</Window>

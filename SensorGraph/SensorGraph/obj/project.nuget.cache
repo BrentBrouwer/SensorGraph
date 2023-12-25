@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "tFNTmC8RmvfmkzPfySOPZvUu2u6gPBnew/G+EYKsIGjGturdJDUCf8thQly/GwFojMZmOF3EjxPA5mtiiCM8fQ==",
+  "success": true,
+  "projectFilePath": "C:\\ValorLocal\\Git\\GitRepositories\\GitHub\\Hobby\\SensorGraph\\SensorGraph\\SensorGraph\\SensorGraph.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Valor\\.nuget\\packages\\dynamicdatadisplay\\0.3.0.1\\dynamicdatadisplay.0.3.0.1.nupkg.sha512"
+  ],
+  "logs": []
+}

@@ -1,0 +1,140 @@
+{
+  "version": 3,
+  "targets": {
+    ".NETFramework,Version=v4.8": {
+      "DynamicDataDisplay/0.3.0.1": {
+        "type": "package",
+        "compile": {
+          "lib/net45/DynamicDataDisplay.dll": {}
+        },
+        "runtime": {
+          "lib/net45/DynamicDataDisplay.dll": {}
+        }
+      }
+    },
+    ".NETFramework,Version=v4.8/win": {
+      "DynamicDataDisplay/0.3.0.1": {
+        "type": "package",
+        "compile": {
+          "lib/net45/DynamicDataDisplay.dll": {}
+        },
+        "runtime": {
+          "lib/net45/DynamicDataDisplay.dll": {}
+        }
+      }
+    },
+    ".NETFramework,Version=v4.8/win-arm64": {
+      "DynamicDataDisplay/0.3.0.1": {
+        "type": "package",
+        "compile": {
+          "lib/net45/DynamicDataDisplay.dll": {}
+        },
+        "runtime": {
+          "lib/net45/DynamicDataDisplay.dll": {}
+        }
+      }
+    },
+    ".NETFramework,Version=v4.8/win-x64": {
+      "DynamicDataDisplay/0.3.0.1": {
+        "type": "package",
+        "compile": {
+          "lib/net45/DynamicDataDisplay.dll": {}
+        },
+        "runtime": {
+          "lib/net45/DynamicDataDisplay.dll": {}
+        }
+      }
+    },
+    ".NETFramework,Version=v4.8/win-x86": {
+      "DynamicDataDisplay/0.3.0.1": {
+        "type": "package",
+        "compile": {
+          "lib/net45/DynamicDataDisplay.dll": {}
+        },
+        "runtime": {
+          "lib/net45/DynamicDataDisplay.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "DynamicDataDisplay/0.3.0.1": {
+      "sha512": "AcnPV2TrryL1qlb2YlgNaFa71QQGEImMpKUD5eOX8Rz0e1XKlaRr/kvPrOYKLd+L8j6EXw8MCc2Nd/e1I0j2eg==",
+      "type": "package",
+      "path": "dynamicdatadisplay/0.3.0.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "dynamicdatadisplay.0.3.0.1.nupkg.sha512",
+        "dynamicdatadisplay.nuspec",
+        "lib/net45/DynamicDataDisplay.dll"
+      ]
+    }
+  },
+  "projectFileDependencyGroups": {
+    ".NETFramework,Version=v4.8": [
+      "DynamicDataDisplay >= 0.3.0.1"
+    ]
+  },
+  "packageFolders": {
+    "C:\\Users\\Valor\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "C:\\ValorLocal\\Git\\GitRepositories\\GitHub\\Hobby\\SensorGraph\\SensorGraph\\SensorGraph\\SensorGraph.csproj",
+      "projectName": "SensorGraph",
+      "projectPath": "C:\\ValorLocal\\Git\\GitRepositories\\GitHub\\Hobby\\SensorGraph\\SensorGraph\\SensorGraph\\SensorGraph.csproj",
+      "packagesPath": "C:\\Users\\Valor\\.nuget\\packages\\",
+      "outputPath": "C:\\ValorLocal\\Git\\GitRepositories\\GitHub\\Hobby\\SensorGraph\\SensorGraph\\SensorGraph\\obj\\",
+      "projectStyle": "PackageReference",
+      "skipContentFileWrite": true,
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
+      "configFilePaths": [
+        "C:\\Users\\Valor\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+      ],
+      "originalTargetFrameworks": [
+        "net48"
+      ],
+      "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\ProgramData\\Valor\\Nuget_Packages": {},
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net48": {
+          "projectReferences": {}
+        }
+      }
+    },
+    "frameworks": {
+      "net48": {
+        "dependencies": {
+          "DynamicDataDisplay": {
+            "target": "Package",
+            "version": "[0.3.0.1, )"
+          }
+        }
+      }
+    },
+    "runtimes": {
+      "win": {
+        "#import": []
+      },
+      "win-arm64": {
+        "#import": []
+      },
+      "win-x64": {
+        "#import": []
+      },
+      "win-x86": {
+        "#import": []
+      }
+    }
+  }
+}
