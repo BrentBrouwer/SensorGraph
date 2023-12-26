@@ -62,7 +62,7 @@ namespace SensorGraph
             {
                 if (CreateInstances())
                 {
-
+                    classManager.Init();
                 }
             }
             catch (Exception Ex)
@@ -89,7 +89,16 @@ namespace SensorGraph
         #region Page Events
         private void PageLoaded(object sender, RoutedEventArgs e)
         {
+            string MethodName = "PageLoaded()";
 
+            try
+            {
+                //Init();
+            }
+            catch (Exception Ex)
+            {
+                ErrorHandling.ShowException(Ex, MethodName);
+            }
         }
 
         private void PageClosing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -109,6 +118,7 @@ namespace SensorGraph
                 // Create the Objects
                 classManager = new ClassManager(thisClassRef);
 
+                RetValue = true;
             }
             catch (Exception Ex)
             {
