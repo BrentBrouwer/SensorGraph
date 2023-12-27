@@ -12,6 +12,7 @@ namespace SensorGraph.Arduino
         #region Properties
         // Own Reference
         ArduinoCOM thisClassRef = null;
+        string ClassName = "ArduinoCOM";
 
         // Reference to the ClassManager
         ClassManager classManager = null;
@@ -33,11 +34,14 @@ namespace SensorGraph.Arduino
 
             try
             {
-                
+                if (CreateInstances())
+                {
+
+                }
             }
             catch (Exception Ex)
             {
-                ErrorHandling.ShowException(Ex, MethodName);
+                ErrorHandling.ShowException(Ex, MethodName, ClassName);
             }
         }
 
@@ -51,7 +55,7 @@ namespace SensorGraph.Arduino
             }
             catch (Exception Ex)
             {
-                ErrorHandling.ShowException(Ex, MethodName);
+                ErrorHandling.ShowException(Ex, MethodName, ClassName);
             }
         }
         #endregion
@@ -71,7 +75,7 @@ namespace SensorGraph.Arduino
             }
             catch (Exception Ex)
             {
-                ErrorHandling.ShowException(Ex, MethodName);
+                ErrorHandling.ShowException(Ex, MethodName, ClassName);
             }
 
             return RetValue;

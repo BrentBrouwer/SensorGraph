@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:SensorGraph"
         mc:Ignorable="d" 
         xmlns:DDD="http://research.microsoft.com/DynamicDataDisplay/1.0"
-        Title="MainWindow" Height="450" Width="800" Loaded="PageLoaded" Closing="PageClosing">
+        Title="MainWindow" Height="924" Width="1280" Loaded="PageLoaded" Closing="PageClosing">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -31,7 +31,7 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <DDD:ChartPlotter Name="SensorGraph" Grid.Row="1" Grid.Column="1" Grid.RowSpan="8" Grid.ColumnSpan="6">
+        <DDD:ChartPlotter Name="SensorGraph" Grid.Row="2" Grid.Column="1" Grid.RowSpan="8" Grid.ColumnSpan="6">
             <DDD:ChartPlotter.HorizontalAxis>
                 <DDD:HorizontalDateTimeAxis Name="DateTimeAxis"/>
             </DDD:ChartPlotter.HorizontalAxis>
@@ -39,5 +39,19 @@
                 <DDD:VerticalIntegerAxis Name="ValueAxis"/>
             </DDD:ChartPlotter.VerticalAxis>
         </DDD:ChartPlotter>
+
+        <TextBox Name="ArduinoConnectText" Grid.Row="1" Grid.Column="1" Grid.RowSpan="1" Grid.ColumnSpan="1"
+                 IsReadOnly="True" BorderBrush="Black" BorderThickness="1" Background="Wheat" FontSize="20"
+                 HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+        <TextBox Name="ArduinoConnectValue" Grid.Row="1" Grid.Column="2" Grid.RowSpan="1" Grid.ColumnSpan="1"
+                 IsReadOnly="True" BorderBrush="Black" BorderThickness="1" Background="LightBlue" FontSize="20"
+                 HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+        
+        <TextBox Name="SensorDataText" Grid.Row="1" Grid.Column="3" Grid.RowSpan="1" Grid.ColumnSpan="1"
+                 IsReadOnly="True" BorderBrush="Black" BorderThickness="1" Background="Wheat" FontSize="20"
+                 HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+        <TextBox Name="SensorDataValue" Grid.Row="1" Grid.Column="4" Grid.RowSpan="1" Grid.ColumnSpan="1"
+                 IsReadOnly="True" BorderBrush="Black" BorderThickness="1" Background="LightBlue" FontSize="20"
+                 HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
     </Grid>
 </Window>

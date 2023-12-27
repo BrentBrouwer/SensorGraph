@@ -14,13 +14,14 @@ namespace SensorGraph
         #region Properties
         // Own Reference
         ClassManager thisClassRef = null;
+        string ClassName = "ClassManager";
 
         // Reference to the Main
         MainWindow mainWindow = null;
 
         // The Instances Controlled by the ClassManager
-        ArduinoCOM arduinoCOM = null;
-        SocketCommunication socketCommunication = null;
+        public ArduinoCOM arduinoCOM = null;
+        public SocketCommunication socketCommunication = null;
         #endregion
 
         #region Constructor
@@ -49,7 +50,7 @@ namespace SensorGraph
             }
             catch (Exception Ex)
             {
-                ErrorHandling.ShowException(Ex, MethodName);
+                ErrorHandling.ShowException(Ex, MethodName, ClassName);
             }
         }
 
@@ -68,7 +69,7 @@ namespace SensorGraph
             }
             catch (Exception Ex)
             {
-                ErrorHandling.ShowException(Ex, MethodName);
+                ErrorHandling.ShowException(Ex, MethodName, ClassName);
             }
         }
         #endregion
@@ -89,7 +90,7 @@ namespace SensorGraph
             }
             catch (Exception Ex)
             {
-                ErrorHandling.ShowException(Ex, MethodName);
+                ErrorHandling.ShowException(Ex, MethodName, ClassName);
             }
 
             return RetValue;

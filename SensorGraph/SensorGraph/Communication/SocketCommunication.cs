@@ -14,20 +14,27 @@ namespace SensorGraph.Communication
         #region Properties
         // Own Reference
         SocketCommunication thisClassRef = null;
+        string ClassName = "SocketCommunication";
 
         // Reference to the ClassManager
         ClassManager classManager = null;
 
-        // Task Properties
-        Task<bool> TaskAsyncServerReading = null;
-        bool EnableServerReading = false;
+        // Task Definitation
+        Task<bool> TaskCheckClients = null;
+        bool EnableCheckClients = false;
 
-        // TCP Socket Properties
-        Socket ClientSocket = null;
+        // Server Properties (this program)
+        TcpListener tcpServer = null;
+        IPAddress ServerIPAddress = IPAddress.Parse("192.168.53.19");
+        const int ServerPort = 8267;
+        const int MaxRecBufferSize = 2048;
+        public bool ClientConnected = false;
+        public int SensorValue = 0;
 
-        // Socket Settings
-        IPAddress ipAddress = null;
-        int PortNr = 8267;
+        // Client Properties (Devices that connect to this Server)
+        TcpClient tcpClient = null;
+        // Array of Devices that are able to connect, maximum of 10
+        //TcpClient[] tcpClients = new TcpClient[10];
         #endregion
 
         #region Constructor
@@ -48,15 +55,16 @@ namespace SensorGraph.Communication
             {
                 if (CreateInstances())
                 {
-                    EstablishConnection();
+                    // Start the Server
+                    tcpServer.Start();
 
-                    // Start the Async Reading of the Clients
-                    StartServerReading();
+                    // Start Checking for Incoming Clients
+                    StartCheckingClients();
                 }
             }
             catch (Exception Ex)
             {
-                ErrorHandling.ShowException(Ex, MethodName);
+                ErrorHandling.ShowException(Ex, MethodName, ClassName);
             }
         }
 
@@ -70,7 +78,7 @@ namespace SensorGraph.Communication
             }
             catch (Exception Ex)
             {
-                ErrorHandling.ShowException(Ex, MethodName);
+                ErrorHandling.ShowException(Ex, MethodName, ClassName);
             }
         }
         #endregion
@@ -87,97 +95,110 @@ namespace SensorGraph.Communication
 
             try
             {
-
+                // Create the Server Object, that listens to all network interfaces
+                tcpServer = new TcpListener(IPAddress.Any, ServerPort);
 
                 RetValue = true;
             }
             catch (Exception Ex)
             {
-                ErrorHandling.ShowException(Ex, MethodName);
+                ErrorHandling.ShowException(Ex, MethodName, ClassName);
             }
 
             return RetValue;
         }
 
-        void StartServerReading()
+        #region Connection
+        async void StartCheckingClients()
         {
-            string MethodName = "AsyncServerReading()";
+            string MethodName = "StartCheckingClients()";
 
             try
             {
-                if (TaskAsyncServerReading == null || TaskAsyncServerReading.Status != TaskStatus.Running)
+                if (TaskCheckClients == null || TaskCheckClients.Status != TaskStatus.Running)
                 {
-                    EnableServerReading = true;
-                    TaskAsyncServerReading = new Task<bool>(() => AsyncServerReading());
-                    TaskAsyncServerReading.Start();
+                    EnableCheckClients = true;
+                    TaskCheckClients = new Task<bool>(() => AsyncReadClient());
+                    TaskCheckClients.Start();
                 }
+
+                // Await the Result
+                bool TaskResult = await TaskCheckClients;
             }
             catch (Exception Ex)
             {
-                ErrorHandling.ShowException(Ex, MethodName);
+                ErrorHandling.ShowException(Ex, MethodName, ClassName);
             }
         }
 
-        bool AsyncServerReading()
+        bool AsyncReadClient()
         {
-            string MethodName = "AsyncServerReading()";
+            string MethodName = "AsyncReadClient()";
             bool RetValue = false;
-
-            bool WaitForConnection = true;
 
             try
             {
-                while (EnableServerReading)
+                while (EnableCheckClients)
                 {
-                    do
+                    // Check for Connected Clients
+                    tcpClient = tcpServer.AcceptTcpClient();
+
+                    // Get the NetworkStream to Send/Receive Messages
+                    NetworkStream networkStream = tcpClient.GetStream();
+
+                    // Check if the Client is Connected
+                    if (tcpClient.Connected)
                     {
+                        ClientConnected = true;
 
+                        // Create the Buffer
+                        byte[] buffer = new byte[MaxRecBufferSize];
+
+                        // Read the Clients Buffer
+                        networkStream.Read(buffer, 0, MaxRecBufferSize);
+
+                        string ReceivedMsg = Encoding.UTF8.GetString(buffer);
+
+                        if (ReceivedMsg.Length > 0)
+                        {
+                            // Parse the Message
+                            ParseMessage(ReceivedMsg);
+                        }
                     }
-                    while (WaitForConnection);
+                    else
+                    {
+                        ClientConnected = false;
+                    }
                 }
             }
             catch (Exception Ex)
             {
-                ErrorHandling.ShowException(Ex, MethodName);
+                EnableCheckClients = false;
+                ErrorHandling.ShowException(Ex, MethodName, ClassName);
             }
 
             return RetValue;
         }
 
-        bool EstablishConnection()
+        private void ParseMessage(string ReceivedMsg)
         {
-            string MethodName = "AsyncServerReading()";
-            bool RetValue = false;
-
-            bool WaitForConnection = true;
-
+            string MethodName = "ParseMessage()";
+            
             try
             {
-                // Get the First IP Address of the LocalHost List
-                IPHostEntry host = Dns.GetHostEntry("localhost");
-                ipAddress = host.AddressList[1];
-                IPEndPoint endPoint = new IPEndPoint(ipAddress, PortNr);
-
-                // Create the Socket Object
-                ClientSocket = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-
-                // Try to Connect to the EndPoint
-                IAsyncResult asyncConnectionResult = ClientSocket.BeginConnect(endPoint, new AsyncCallback(SocketConnectCallBack), ClientSocket);
-
-                // Check from QliqFlowBase --> ValorClientSocketIO.cs
+                // Done Parsing, Read the Buffer again
+                
             }
             catch (Exception Ex)
             {
-                ErrorHandling.ShowException(Ex, MethodName);
+                ErrorHandling.ShowException(Ex, MethodName, ClassName);
             }
-
-            return RetValue;
         }
+        #endregion
 
-        void SocketConnectCallBack(IAsyncResult ar)
-        {
-
-        }
+        #region Reading Data
+        
+        #endregion
         #endregion
     }
 }
