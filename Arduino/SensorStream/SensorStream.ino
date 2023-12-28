@@ -1,7 +1,12 @@
 // Libraries
 #include <Ethernet.h>
 
-// Socket Server Properties
+// Loop Enable
+bool LoopDisableInit = true;
+
+// Sample Interval
+
+// Socket Server Properties (PC)
 IPAddress ServerIP(192, 168, 53, 19);
 // IPAddress ServerIP(127, 0, 0, 1);
 EthernetClient client;
@@ -27,20 +32,33 @@ void setup()
 
 void loop() 
 {
-  // First check the Hardware, then try to connect
-  if (CheckHardWare() && ConnectToServer())
+  if (digitalRead(8))
   {
-    // Read the Sensor Input
-    int SensorValue = analogRead(A0);
-    Serial.print("Sensor Value: ");
-    Serial.println(SensorValue);
+    LoopDisableInit = true;
 
-    client.write(SensorValue);
+    // First check the Hardware, then try to connect
+    if (CheckHardWare() && ConnectToServer())
+    {
+      // Read the Sensor Input and Send it to the Server
+      SendDataToServer(analogRead(A0), analogRead(A1));
+
+      // Write the Data to the Server
+      // client.write(SensorValue);
+    }
+  }
+  else 
+  {
+    if (LoopDisableInit)
+    {
+      // client.stop();
+      Serial.println("Loop Disabled");
+      LoopDisableInit = false;
+    }
+    
+    // Prevent High CPU Usage
+    delay(10);
   }
 
   // Debug, Always send the sensor value
-  // Read the Sensor Input
-  // int SensorValue = analogRead(A0);
-  // Serial.print("Sensor Value: ");
-  // Serial.println(SensorValue);
+  // SendDataToServer(analogRead(A0), analogRead(A1));
 }

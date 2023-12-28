@@ -62,6 +62,7 @@ void InitSocket()
   IPAddress ArduinoDns(192, 168, 1, 1);
   IPAddress ArduinoGateway(192, 168, 1, 254);
   IPAddress ArduinoSubnet(255, 255, 192, 0);
+  int PortNr = 8267;
 
   // Configure the CS Pin
   //Ethernet.init(10);
@@ -80,8 +81,6 @@ void InitSocket()
 // Connect to the Socket Server
 bool ConnectToServer()
 {
-  
-
   // Check if the Client is already Connected
   if (client.connected())
   {
@@ -99,4 +98,15 @@ bool ConnectToServer()
     Serial.println("Connection Failed");
     return false;
   }
+}
+
+void SendDataToServer(int A0Value, int A1Value)
+{
+  char msg[20];
+  sprintf(msg, "%c%i|%i%c", (char)2, A0Value, A1Value, (char)3);
+  Serial.println(msg);
+  client.write(msg);
+
+  // Debug
+  delay(1000);
 }

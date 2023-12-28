@@ -21,11 +21,20 @@ namespace SensorGraph
     /// </summary>
     public class ErrorHandling
     {
+        public static string ExceptionMsg;
+
+        public static string ExceptionSource;
+        public static DateTime ExceptionDateTime;
+        
+
         public static void ShowException(Exception Ex, string MethodName, string ClassName)
         {
-            string ShowMessage = string.Format("Exception at: {0}.{1}. \nMessage: {2}", ClassName, MethodName, Ex.Message);
+            ExceptionMsg = Ex.Message;
+            ExceptionDateTime = DateTime.Now;
+            ExceptionSource = string.Format("{0}.\n{1}", ClassName, MethodName);
 
-            MessageBox.Show(ShowMessage);
+            //string ShowMessage = string.Format("Exception at: {0}.{1}. \nMessage: {2}", ClassName, MethodName, Ex.Message);
+            //MessageBox.Show(ShowMessage);
         }
     }
 
@@ -47,6 +56,36 @@ namespace SensorGraph
 
         // The UI Update Timer
         System.Timers.Timer UIUpdateTimer = null;
+
+        // Sample Interval
+        long sampleInterval = 0;
+        public long SampleInterval
+        {
+            get
+            {
+                return sampleInterval;
+            }
+
+            set
+            {
+                if (value > 0)
+                {
+                    sampleInterval = value;
+
+                    // Set the Timer Interval
+                    SampleIntervalTimer.Stop();
+                    SampleIntervalTimer.Interval = sampleInterval;
+                    SampleIntervalTimer.Start();
+                }
+            }
+        }
+
+        // Sample Interval Timer
+        System.Timers.Timer SampleIntervalTimer = null;
+
+        // Sample that is Taken
+        int A0TakenSample = 0;
+        int A1TakenSample = 0;
         #endregion
 
         #region Constructor
@@ -141,9 +180,76 @@ namespace SensorGraph
                 {
                     thisClassRef.Dispatcher.Invoke(new Action(() => 
                     {
+                        // Exception
+                        if (ErrorHandling.ExceptionMsg != null &&
+                            ErrorHandling.ExceptionDateTime != null &&
+                            ErrorHandling.ExceptionMsg != null)
+                        {
+                            ExceptionSourceValue.Text = ErrorHandling.ExceptionSource;
+                            ExceptionTimeValue.Text = ErrorHandling.ExceptionDateTime.ToString();
+                            ExceptionValue.Text = ErrorHandling.ExceptionMsg;
+                        }
+                        else
+                        {
+                            ExceptionSourceValue.Text = string.Empty;
+                            ExceptionTimeValue.Text = string.Empty;
+                            ExceptionValue.Text = string.Empty;
+                        }
+
+                        // Data
                         ArduinoConnectValue.Text = classManager.socketCommunication.ClientConnected ? "Connected" : "Disconnected";
-                        SensorDataValue.Text = classManager.socketCommunication.SensorValue.ToString();
+                        ArduinoRawDataValue.Text = classManager.socketCommunication.IncomingData;
+                        //SensorA0DataValue.Text = classManager.socketCommunication.SensorA0Value.ToString();
+                        //SensorA1DataValue.Text = classManager.socketCommunication.SensorA1Value.ToString();
                     }));
+                }
+            }
+            catch (Exception Ex)
+            {
+                ErrorHandling.ShowException(Ex, MethodName, ClassName);
+            }
+        }
+
+        private void SampleIntervalTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            string MethodName = "UIUpdateTimer_Elapsed()";
+
+            try
+            {
+                // Take the Current Value of Sensors A0 and A1
+                A0TakenSample = classManager.socketCommunication.SensorA0Value;
+                A1TakenSample = classManager.socketCommunication.SensorA1Value;
+
+                thisClassRef.Dispatcher.Invoke(new Action(() => 
+                {
+                    SensorA0DataValue.Text = A0TakenSample.ToString();
+                    SensorA1DataValue.Text = A1TakenSample.ToString();
+                }));
+            }
+            catch (Exception Ex)
+            {
+                ErrorHandling.ShowException(Ex, MethodName, ClassName);
+            }
+        }
+
+        private void SampleValue_Changed(object sender, KeyEventArgs e)
+        {
+            string MethodName = "SampleValue_Changed";
+
+            try
+            {
+                // Only Continue when the Enter-Key is Pressed
+                if (e.Key == Key.Enter)
+                {
+                    string SampleIntervalText = SampleIntervalValue.Text;
+
+                    if (int.TryParse(SampleIntervalText, out int SampleIntervalms))
+                    {
+                        SampleInterval = SampleIntervalms;
+
+                        // Update the UI
+                        SampleIntervalValue.Text = SampleInterval.ToString();
+                    }
                 }
             }
             catch (Exception Ex)
@@ -171,6 +277,13 @@ namespace SensorGraph
                 UIUpdateTimer.Elapsed += (sender, e) => UIUpdateTimer_Elapsed(sender, e);
                 UIUpdateTimer.Start();
 
+                // Create the Sample Interval Timer
+                SampleIntervalTimer = new System.Timers.Timer();
+                SampleIntervalTimer.Interval = TimeSpan.FromMilliseconds(50).TotalMilliseconds;
+                SampleIntervalTimer.AutoReset = true;
+                SampleIntervalTimer.Elapsed += (sender, e) => SampleIntervalTimer_Elapsed(sender, e);
+                SampleIntervalTimer.Start();
+
                 RetValue = true;
             }
             catch (Exception Ex)
@@ -187,21 +300,38 @@ namespace SensorGraph
 
             try
             {
-                // TextBoxes
+                // Settings
+                SettingsHeader.Text = "Settings";
+                SampleIntervalText.Text = "Sample Interval\n[ms]";
+                SampleIntervalValue.Text = "1000";
+
+                // DataDisplay
+                DataDisplayHeader.Text = "Data";
                 ArduinoConnectText.Text = "Arduino State";
+                ArduinoRawDataText.Text = "Raw Data";
+                ArduinoRawDataValue.Text = "-";
                 ArduinoConnectValue.Text = "-";
-                SensorDataText.Text = "Sensor Value";
-                SensorDataValue.Text = "-";
+                SensorA0DataText.Text = "Sensor A0 Value";
+                SensorA0DataValue.Text = "-";
+                SensorA1DataText.Text = "Sensor A1 Value";
+                SensorA1DataValue.Text = "-";
 
                 // Chart
+
+                // Exception
+                ExceptionSourceText.Text = "Source";
+                ExceptionSourceValue.Text = "-";
+                ExceptionTimeText.Text = "Time";
+                ExceptionTimeValue.Text = "-";
+                ExceptionText.Text = "Exception\nMessage";
+                ExceptionValue.Text = "-";
             }
             catch (Exception Ex)
             {
                 ErrorHandling.ShowException(Ex, MethodName, ClassName);
             }
         }
-        #endregion
 
-        
+        #endregion
     }
 }
