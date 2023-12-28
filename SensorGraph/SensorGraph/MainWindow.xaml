@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SensorGraph"
         mc:Ignorable="d" 
-        xmlns:DDD="http://research.microsoft.com/DynamicDataDisplay/1.0"
+        xmlns:d3="clr-namespace:InteractiveDataDisplay.WPF;assembly=InteractiveDataDisplay.WPF"
         Title="MainWindow" Height="924" Width="1280" Loaded="PageLoaded" Closing="PageClosing" WindowStartupLocation="CenterScreen" WindowState="Maximized">
     <Grid>
         <Grid.RowDefinitions>
@@ -85,14 +85,9 @@
                  IsReadOnly="True" BorderBrush="Black" BorderThickness="1" Background="LightBlue" FontSize="16"
                  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
 
-        <DDD:ChartPlotter Name="SensorGraph" Grid.Row="5" Grid.Column="1" Grid.RowSpan="8" Grid.ColumnSpan="8">
-            <DDD:ChartPlotter.HorizontalAxis>
-                <DDD:HorizontalDateTimeAxis Name="DateTimeAxis"/>
-            </DDD:ChartPlotter.HorizontalAxis>
-            <DDD:ChartPlotter.VerticalAxis>
-                <DDD:VerticalIntegerAxis Name="ValueAxis"/>
-            </DDD:ChartPlotter.VerticalAxis>
-        </DDD:ChartPlotter>
+        <d3:Chart Name="SensorChart" Grid.Row="6" Grid.Column="1" Grid.RowSpan="6" Grid.ColumnSpan="8">
+            <Grid Name="SensorGrid"/>
+        </d3:Chart>
         <!--#endregion-->
         
         <!--#region Error-->

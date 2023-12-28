@@ -1,4 +1,5 @@
-﻿using System;
+﻿using InteractiveDataDisplay.WPF;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -86,6 +87,12 @@ namespace SensorGraph
         // Sample that is Taken
         int A0TakenSample = 0;
         int A1TakenSample = 0;
+
+        // Data to Display
+        const int MaxDataPoints = 10000;
+        double[] Xvalues = null;
+        double[] Yvalues = null;
+        LineGraph DataLine = null;
         #endregion
 
         #region Constructor
@@ -220,11 +227,15 @@ namespace SensorGraph
                 A0TakenSample = classManager.socketCommunication.SensorA0Value;
                 A1TakenSample = classManager.socketCommunication.SensorA1Value;
 
+                // Update the UI
                 thisClassRef.Dispatcher.Invoke(new Action(() => 
                 {
                     SensorA0DataValue.Text = A0TakenSample.ToString();
                     SensorA1DataValue.Text = A1TakenSample.ToString();
                 }));
+
+                // Add to the Chart
+                AddDataPoint(A0TakenSample, A1TakenSample);
             }
             catch (Exception Ex)
             {
@@ -269,6 +280,11 @@ namespace SensorGraph
             {
                 // Create the Objects
                 classManager = new ClassManager(thisClassRef);
+                Xvalues = new double[1] { 0 };
+                Yvalues = new double[1] { 0 };
+
+                // Create the ChartLine
+                CreateChartLines();
 
                 // Create the Update Timer
                 UIUpdateTimer = new System.Timers.Timer();
@@ -317,6 +333,13 @@ namespace SensorGraph
                 SensorA1DataValue.Text = "-";
 
                 // Chart
+                SensorChart.Title = "Pressure vs Flow";
+                SensorChart.BottomTitle = "Pressure [Bar] (A0)";
+                SensorChart.LeftTitle = "Flow [L/S] (A1)";
+                SensorChart.IsAutoFitEnabled = true;
+
+                // Debug, Test Data
+
 
                 // Exception
                 ExceptionSourceText.Text = "Source";
@@ -332,6 +355,77 @@ namespace SensorGraph
             }
         }
 
+        private void CreateChartLines()
+        {
+            string MethodName = "CreateChartLines()";
+
+            try
+            {
+                DataLine = new InteractiveDataDisplay.WPF.LineGraph
+                {
+                    Stroke = new SolidColorBrush(Colors.Red),
+                    StrokeThickness = 1
+                };
+            }
+            catch (Exception Ex)
+            {
+                ErrorHandling.ShowException(Ex, MethodName, ClassName);
+            }
+        }
+
+        private void AddDataPoint(int Xvalue, int Yvalue)
+        {
+            string MethodName = "SetDataPoint()";
+
+            try
+            {
+                // Create the New Arrays
+                double[] NewXDataArray = new double[Xvalues.Length + 1];
+                double[] NewYDataArray = new double[Yvalues.Length + 1];
+
+                // Add the New Values
+                for (int i = 0; i <= Xvalues.Length; i++)
+                {
+                    if (i == Xvalues.Length)
+                    {
+                        NewXDataArray[i] = Xvalue;
+                        NewYDataArray[i] = Yvalue;
+                    }
+                    else
+                    {
+                        NewXDataArray[i] = Xvalues[i];
+                        NewYDataArray[i] = Yvalues[i];
+                    }
+                }
+
+                // Load Data to the Chart
+                if (DataLine != null)
+                {
+                    thisClassRef.Dispatcher.Invoke(new Action(() => 
+                    {
+                        DataLine.Plot(NewXDataArray, NewYDataArray);
+
+                        // Add the Lines to the Grid
+                        SensorGrid.Children.Clear();
+                        SensorGrid.Children.Add(DataLine);
+                    }));
+                }
+
+                // Assign the New Array as the Old Array
+                Xvalues = new double[NewXDataArray.Length];
+                Yvalues = new double[NewYDataArray.Length];
+
+                for (int i = 0; i < NewXDataArray.Length; i++)
+                {
+                    Xvalues[i] = NewXDataArray[i];
+                    Yvalues[i] = NewYDataArray[i];
+                }
+            }
+            catch (Exception Ex)
+            {
+                ErrorHandling.ShowException(Ex, MethodName, ClassName);
+            }
+        }
         #endregion
     }
 }

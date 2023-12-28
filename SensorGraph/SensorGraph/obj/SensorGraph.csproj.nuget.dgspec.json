@@ -42,6 +42,14 @@
             "DynamicDataDisplay": {
               "target": "Package",
               "version": "[0.3.0.1, )"
+            },
+            "Extended.Wpf.Toolkit": {
+              "target": "Package",
+              "version": "[4.5.1, )"
+            },
+            "InteractiveDataDisplay.WPF": {
+              "target": "Package",
+              "version": "[1.0.0, )"
             }
           }
         }

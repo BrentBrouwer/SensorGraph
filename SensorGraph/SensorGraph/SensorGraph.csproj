@@ -121,6 +121,12 @@
     <PackageReference Include="DynamicDataDisplay">
       <Version>0.3.0.1</Version>
     </PackageReference>
+    <PackageReference Include="Extended.Wpf.Toolkit">
+      <Version>4.5.1</Version>
+    </PackageReference>
+    <PackageReference Include="InteractiveDataDisplay.WPF">
+      <Version>1.0.0</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
