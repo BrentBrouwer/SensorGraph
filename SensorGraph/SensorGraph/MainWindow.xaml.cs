@@ -444,9 +444,11 @@ namespace SensorGraph
             double Pressure = 0;
 
             // Sensor Properties
+            double MinPressure = 0;
             double MaxPressure = 10;
 
             // Analog Properties
+            double MinAnalog = 0;
             double MaxAnalog = 1023;
 
             try
@@ -454,7 +456,7 @@ namespace SensorGraph
                 if (AnalogValue > 0)
                 {
                     // Ratio of Bar/
-                    double Ratio = MaxPressure / MaxAnalog;
+                    double Ratio = (MaxPressure - MinPressure) / (MaxAnalog - MinAnalog);
 
                     // Calculate the Pressure
                     Pressure = (double)(Ratio * AnalogValue);
@@ -477,9 +479,11 @@ namespace SensorGraph
             double Flow = 0;
 
             // Sensor Properties
+            double MinFlow = 0.02;
             double MaxFlow = 20;
 
             // Analog Properties
+            double MinAnalog = 0;
             double MaxAnalog = 1023;
 
             try
@@ -487,7 +491,7 @@ namespace SensorGraph
                 if (AnalogValue > 0)
                 {
                     // Ratio of Bar/
-                    double Ratio = MaxFlow / MaxAnalog;
+                    double Ratio = (MaxFlow - MinFlow) / (MaxAnalog - MinAnalog);
 
                     // Calculate the Flow
                     Flow = (double)(Ratio * AnalogValue);
