@@ -32,7 +32,8 @@ void setup()
 
 void loop() 
 {
-  if (digitalRead(8))
+  // if (digitalRead(8))
+  if (true)
   {
     LoopDisableInit = true;
 
