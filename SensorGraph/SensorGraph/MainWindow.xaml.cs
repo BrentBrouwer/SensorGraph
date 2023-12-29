@@ -206,8 +206,6 @@ namespace SensorGraph
                         // Data
                         ArduinoConnectValue.Text = classManager.socketCommunication.ClientConnected ? "Connected" : "Disconnected";
                         ArduinoRawDataValue.Text = classManager.socketCommunication.IncomingData;
-                        //SensorA0DataValue.Text = classManager.socketCommunication.SensorA0Value.ToString();
-                        //SensorA1DataValue.Text = classManager.socketCommunication.SensorA1Value.ToString();
                     }));
                 }
             }
@@ -227,15 +225,21 @@ namespace SensorGraph
                 A0TakenSample = classManager.socketCommunication.SensorA0Value;
                 A1TakenSample = classManager.socketCommunication.SensorA1Value;
 
+                // Calculate to the Correct Units
+                double Pressure = ConvertToPressure(A0TakenSample);
+                double Flow = ConvertToFlow(A1TakenSample);
+
                 // Update the UI
                 thisClassRef.Dispatcher.Invoke(new Action(() => 
                 {
                     SensorA0DataValue.Text = A0TakenSample.ToString();
                     SensorA1DataValue.Text = A1TakenSample.ToString();
+                    PressureValue.Text = Pressure.ToString();
+                    FlowValue.Text = Flow.ToString();
                 }));
 
                 // Add to the Chart
-                AddDataPoint(A0TakenSample, A1TakenSample);
+                AddDataPoint(Pressure, Flow);
             }
             catch (Exception Ex)
             {
@@ -331,15 +335,22 @@ namespace SensorGraph
                 SensorA0DataValue.Text = "-";
                 SensorA1DataText.Text = "Sensor A1 Value";
                 SensorA1DataValue.Text = "-";
+                PressureText.Text = "Pressure [Bar]";
+                PressureValue.Text = "-";
+                FlowText.Text = "Flow [L/S]";
+                FlowValue.Text = "-";
 
                 // Chart
+                // Titles
                 SensorChart.Title = "Pressure vs Flow";
                 SensorChart.BottomTitle = "Pressure [Bar] (A0)";
                 SensorChart.LeftTitle = "Flow [L/S] (A1)";
-                SensorChart.IsAutoFitEnabled = true;
-
-                // Debug, Test Data
-
+                // Axis Properties
+                SensorChart.PlotOriginX = 0;
+                SensorChart.PlotOriginY = 0;
+                SensorChart.PlotWidth = 10;
+                SensorChart.PlotHeight = 20;
+                SensorChart.IsAutoFitEnabled = false;
 
                 // Exception
                 ExceptionSourceText.Text = "Source";
@@ -373,7 +384,7 @@ namespace SensorGraph
             }
         }
 
-        private void AddDataPoint(int Xvalue, int Yvalue)
+        private void AddDataPoint(double Xvalue, double Yvalue)
         {
             string MethodName = "SetDataPoint()";
 
@@ -425,6 +436,72 @@ namespace SensorGraph
             {
                 ErrorHandling.ShowException(Ex, MethodName, ClassName);
             }
+        }
+
+        private double ConvertToPressure(int AnalogValue)
+        {
+            string MethodName = "ConvertToPressure()";
+            double Pressure = 0;
+
+            // Sensor Properties
+            double MaxPressure = 10;
+
+            // Analog Properties
+            double MaxAnalog = 1023;
+
+            try
+            {
+                if (AnalogValue > 0)
+                {
+                    // Ratio of Bar/
+                    double Ratio = MaxPressure / MaxAnalog;
+
+                    // Calculate the Pressure
+                    Pressure = (double)(Ratio * AnalogValue);
+
+                    // Two Decimals
+                    Pressure = Math.Round(Pressure, 2);
+                }
+            }
+            catch (Exception Ex)
+            {
+                ErrorHandling.ShowException(Ex, MethodName, ClassName);
+            }
+
+            return Pressure;
+        }
+
+        private double ConvertToFlow(int AnalogValue)
+        {
+            string MethodName = "ConvertToFlow()";
+            double Flow = 0;
+
+            // Sensor Properties
+            double MaxFlow = 20;
+
+            // Analog Properties
+            double MaxAnalog = 1023;
+
+            try
+            {
+                if (AnalogValue > 0)
+                {
+                    // Ratio of Bar/
+                    double Ratio = MaxFlow / MaxAnalog;
+
+                    // Calculate the Flow
+                    Flow = (double)(Ratio * AnalogValue);
+
+                    // Two Decimals
+                    Flow = Math.Round(Flow, 2);
+                }
+            }
+            catch (Exception Ex)
+            {
+                ErrorHandling.ShowException(Ex, MethodName, ClassName);
+            }
+
+            return Flow;
         }
         #endregion
     }

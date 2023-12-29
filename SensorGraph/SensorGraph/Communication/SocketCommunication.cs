@@ -38,7 +38,7 @@ namespace SensorGraph.Communication
 
         // Buffer Properties
         byte[] DataBuffer = null;
-        const int MaxRecBufferSize = 9;
+        const int MaxRecBufferSize = 11;
 
         // IncomingData
         public int SensorA0Value = 0;
