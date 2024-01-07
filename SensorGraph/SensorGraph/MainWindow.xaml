@@ -6,8 +6,9 @@
         xmlns:local="clr-namespace:SensorGraph"
         mc:Ignorable="d" 
         xmlns:d3="clr-namespace:InteractiveDataDisplay.WPF;assembly=InteractiveDataDisplay.WPF"
+        xmlns:DDD="http://research.microsoft.com/DynamicDataDisplay/1.0"
         Title="MainWindow" Height="924" Width="1280" Loaded="PageLoaded" Closing="PageClosing" WindowStartupLocation="CenterScreen" WindowState="Maximized">
-    <Grid>
+    <Grid Name="WindowGrid">
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition/>
@@ -50,6 +51,15 @@
         <TextBox Name="SampleIntervalValue" Grid.Row="1" Grid.Column="2" Grid.RowSpan="1" Grid.ColumnSpan="1"
                  IsReadOnly="False" BorderBrush="Black" BorderThickness="1" Background="LightBlue" FontSize="16"
                  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" KeyDown="SampleValue_Changed"/>
+
+        <Button Name="StartStopBtn" Grid.Row="1" Grid.Column="3" Click="StartStopBtn_Click"
+                BorderThickness="1" Background="LightGreen"/>
+
+        <Button Name="ShowRawDataBtn" Grid.Row="1" Grid.Column="4" Click="ShowRawDataBtn_Click"
+                BorderThickness="1" Background="#FFF1BA82"/>
+
+        <Button Name="ExportToCSVBtn" Grid.Row="1" Grid.Column="5" Click="ExportToCSVBtn_Click"
+                BorderThickness="1" Background="#FFF1BA82"/>
         <!--#endregion-->
         
         <!--#region Data Display-->
@@ -99,9 +109,20 @@
                  IsReadOnly="True" BorderBrush="Black" BorderThickness="1" Background="LightBlue" FontSize="16"
                  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
 
+        <!--
         <d3:Chart Name="SensorChart" Grid.Row="6" Grid.Column="1" Grid.RowSpan="6" Grid.ColumnSpan="8">
             <Grid Name="SensorGrid"/>
         </d3:Chart>
+        -->
+
+        <DDD:ChartPlotter Name="TimeChart" Grid.Row="3" Grid.Column="1" Grid.RowSpan="9" Grid.ColumnSpan="8">
+            <DDD:ChartPlotter.HorizontalAxis>
+                <DDD:HorizontalDateTimeAxis Name="DateTimeAxis"/>
+            </DDD:ChartPlotter.HorizontalAxis>
+            <DDD:HorizontalAxisTitle Content="Time"/>
+            <DDD:Header Content="Pressure and Flow Chart"/>
+            <DDD:VerticalAxisTitle Content="Voltage [mV]"/>
+        </DDD:ChartPlotter>
         <!--#endregion-->
         
         <!--#region Error-->

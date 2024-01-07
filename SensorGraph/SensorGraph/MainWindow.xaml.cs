@@ -1,12 +1,19 @@
 ﻿using InteractiveDataDisplay.WPF;
+using Microsoft.Research.DynamicDataDisplay;
+using Microsoft.Research.DynamicDataDisplay.DataSources;
+using Microsoft.Win32;
+using SensorGraph.PopUp;
+using SensorGraph.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -76,7 +83,10 @@ namespace SensorGraph
                     // Set the Timer Interval
                     SampleIntervalTimer.Stop();
                     SampleIntervalTimer.Interval = sampleInterval;
-                    SampleIntervalTimer.Start();
+
+                    // Reset the Button visualisation
+                    StartStopBtn.Content = "Start";
+                    StartStopBtn.Background = Brushes.LightGreen;
                 }
             }
         }
@@ -92,7 +102,17 @@ namespace SensorGraph
         const int MaxDataPoints = 10000;
         double[] Xvalues = null;
         double[] Yvalues = null;
-        LineGraph DataLine = null;
+        InteractiveDataDisplay.WPF.LineGraph DataLine = null;
+
+        // The Voltage Point Collection Instances for storing the datapoints
+        VoltagePointCollection voltagePointCollectionA0 = null;
+        VoltagePointCollection voltagePointCollectionA1 = null;
+
+        // The Raw Data Window
+        public RawData rawDataWindow = null;
+
+        // Data to Store in Excel
+        Dictionary<DateTime, double[]> DataCollection = null;
         #endregion
 
         #region Constructor
@@ -101,9 +121,9 @@ namespace SensorGraph
             // Set the Reference
             thisClassRef = this;
 
-            Init();
+            InitializeComponent();
 
-            InitializeComponent();                     
+            Init();
         }
         #endregion
 
@@ -204,8 +224,11 @@ namespace SensorGraph
                         }
 
                         // Data
-                        ArduinoConnectValue.Text = classManager.socketCommunication.ClientConnected ? "Connected" : "Disconnected";
-                        ArduinoRawDataValue.Text = classManager.socketCommunication.IncomingData;
+                        if (rawDataWindow != null)
+                        {
+                            rawDataWindow.ArduinoConnectValue.Text = classManager.socketCommunication.ClientConnected ? "Connected" : "Disconnected";
+                            rawDataWindow.ArduinoRawDataValue.Text = classManager.socketCommunication.IncomingData;
+                        }
                     }));
                 }
             }
@@ -217,7 +240,7 @@ namespace SensorGraph
 
         private void SampleIntervalTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            string MethodName = "UIUpdateTimer_Elapsed()";
+            string MethodName = "SampleIntervalTimer_Elapsed()";
 
             try
             {
@@ -225,21 +248,39 @@ namespace SensorGraph
                 A0TakenSample = classManager.socketCommunication.SensorA0Value;
                 A1TakenSample = classManager.socketCommunication.SensorA1Value;
 
+                // Take the TimeStamp
+                DateTime CurrentTimeStamp = DateTime.Now;
+                string CurrentDayTime = CurrentTimeStamp.ToString("MM/dd/yyyy hh:mm:ss.fff tt");
+
                 // Calculate to the Correct Units
                 double Pressure = ConvertToPressure(A0TakenSample);
                 double Flow = ConvertToFlow(A1TakenSample);
+                double A0MilliVolts = ConvertToMilliVolts(A0TakenSample);
+                double A1MilliVolts = ConvertToMilliVolts(A1TakenSample);
 
                 // Update the UI
-                thisClassRef.Dispatcher.Invoke(new Action(() => 
+                if (rawDataWindow != null)
                 {
-                    SensorA0DataValue.Text = A0TakenSample.ToString();
-                    SensorA1DataValue.Text = A1TakenSample.ToString();
-                    PressureValue.Text = Pressure.ToString();
-                    FlowValue.Text = Flow.ToString();
-                }));
+                    rawDataWindow.Dispatcher.Invoke(new Action(() =>
+                    {
+                        SensorA0DataValue.Text = A0TakenSample.ToString();
+                        SensorA1DataValue.Text = A1TakenSample.ToString();
+                        PressureValue.Text = Pressure.ToString();
+                        FlowValue.Text = Flow.ToString();
+                    }));
+                }
 
                 // Add to the Chart
-                AddDataPoint(Pressure, Flow);
+                //AddDataPoint(Pressure, Flow);
+
+                thisClassRef.Dispatcher.Invoke(new Action(() =>
+                {
+                    voltagePointCollectionA0.Add(new VoltagePoint(DateTime.Now, ConvertToMilliVolts(A0TakenSample)));
+                    voltagePointCollectionA1.Add(new VoltagePoint(DateTime.Now, ConvertToMilliVolts(A1TakenSample)));
+                }));
+
+                // Add the Data to the Dictionary
+                DataCollection.Add(CurrentTimeStamp, new double[2] { Pressure, Flow });
             }
             catch (Exception Ex)
             {
@@ -272,6 +313,80 @@ namespace SensorGraph
                 ErrorHandling.ShowException(Ex, MethodName, ClassName);
             }
         }
+
+        private void StartStopBtn_Click(object sender, RoutedEventArgs e)
+        {
+            string MethodName = "StartStopBtn_CLick";
+
+            try
+            {
+                if (StartStopBtn.Content == "Start")
+                {
+                    StartStopBtn.Content = "Stop";
+                    StartStopBtn.Background = Brushes.IndianRed;
+                    SampleIntervalTimer.Start();
+                }
+                else
+                {
+                    SampleIntervalTimer.Stop();
+                    StartStopBtn.Content = "Start";
+                    StartStopBtn.Background = Brushes.LightGreen;
+                }
+            }
+            catch (Exception Ex)
+            {
+                ErrorHandling.ShowException(Ex, MethodName, ClassName);
+            }
+        }
+
+        private void ShowRawDataBtn_Click(object sender, RoutedEventArgs e)
+        {
+            string MethodName = "ShowRawDataBtn";
+
+            try
+            {
+                if (rawDataWindow == null)
+                {
+                    rawDataWindow = new RawData(thisClassRef);
+                    rawDataWindow.Show();
+                }
+                else
+                {
+                    Exception WindowEx = new Exception("Data window already open");
+                    ErrorHandling.ShowException(WindowEx, MethodName, ClassName);
+                }
+            }
+            catch (Exception Ex)
+            {
+                ErrorHandling.ShowException(Ex, MethodName, ClassName);
+            }
+        }
+
+        private void ExportToCSVBtn_Click(object sender, RoutedEventArgs e)
+        {
+            string MethodName = "ExportToCSVBtn_Click";
+
+            try
+            {
+                // Create the Object for the SaveFileDialog
+                SaveFileDialog saveFileDialog = new SaveFileDialog();
+                saveFileDialog.Filter = "CSV file (*.csv)|*.csv| All Files (*.*)|*.*";
+                saveFileDialog.Title = "Save The Parameter File";
+                DateTime date = DateTime.Now;
+                string FileName = string.Format("DataCollection_{0}-{1}-{2}.{3}", date.Day, date.Month, date.Year, "csv");
+                saveFileDialog.FileName = FileName;
+
+                if (saveFileDialog.ShowDialog() == true)
+                {
+                    // Create the File async
+                    ExportToCSV(saveFileDialog.FileName);
+                }
+            }
+            catch (Exception Ex)
+            {
+                ErrorHandling.ShowException(Ex, MethodName, ClassName);
+            }
+        }
         #endregion
 
         #region Methods
@@ -286,6 +401,11 @@ namespace SensorGraph
                 classManager = new ClassManager(thisClassRef);
                 Xvalues = new double[1] { 0 };
                 Yvalues = new double[1] { 0 };
+                voltagePointCollectionA0 = new VoltagePointCollection();
+                voltagePointCollectionA1 = new VoltagePointCollection();
+
+                // Create the Dictionary
+                DataCollection = new Dictionary<DateTime, double[]>();
 
                 // Create the ChartLine
                 CreateChartLines();
@@ -299,10 +419,9 @@ namespace SensorGraph
 
                 // Create the Sample Interval Timer
                 SampleIntervalTimer = new System.Timers.Timer();
-                SampleIntervalTimer.Interval = TimeSpan.FromMilliseconds(50).TotalMilliseconds;
+                SampleIntervalTimer.Interval = TimeSpan.FromMilliseconds(1000).TotalMilliseconds;
                 SampleIntervalTimer.AutoReset = true;
                 SampleIntervalTimer.Elapsed += (sender, e) => SampleIntervalTimer_Elapsed(sender, e);
-                SampleIntervalTimer.Start();
 
                 RetValue = true;
             }
@@ -324,33 +443,22 @@ namespace SensorGraph
                 SettingsHeader.Text = "Settings";
                 SampleIntervalText.Text = "Sample Interval\n[ms]";
                 SampleIntervalValue.Text = "1000";
-
-                // DataDisplay
-                DataDisplayHeader.Text = "Data";
-                ArduinoConnectText.Text = "Arduino State";
-                ArduinoRawDataText.Text = "Raw Data";
-                ArduinoRawDataValue.Text = "-";
-                ArduinoConnectValue.Text = "-";
-                SensorA0DataText.Text = "Sensor A0 Value";
-                SensorA0DataValue.Text = "-";
-                SensorA1DataText.Text = "Sensor A1 Value";
-                SensorA1DataValue.Text = "-";
-                PressureText.Text = "Pressure [Bar]";
-                PressureValue.Text = "-";
-                FlowText.Text = "Flow [L/S]";
-                FlowValue.Text = "-";
+                StartStopBtn.Content = "Start";
+                StartStopBtn.Background = Brushes.LightGreen;
+                ShowRawDataBtn.Content = "Show Raw Data";
+                ExportToCSVBtn.Content = "Export To CSV File";
 
                 // Chart
-                // Titles
-                SensorChart.Title = "Pressure vs Flow";
-                SensorChart.BottomTitle = "Pressure [Bar] (A0)";
-                SensorChart.LeftTitle = "Flow [L/S] (A1)";
-                // Axis Properties
-                SensorChart.PlotOriginX = 0;
-                SensorChart.PlotOriginY = 0;
-                SensorChart.PlotWidth = 10;
-                SensorChart.PlotHeight = 20;
-                SensorChart.IsAutoFitEnabled = false;
+                //SensorChart.Title = "Time vs MilliVolts";
+                //SensorChart.BottomTitle = "Time";
+                //SensorChart.LeftTitle = "Voltage [mV]";
+
+                //// Axis Properties
+                //SensorChart.PlotOriginX = 0;
+                //SensorChart.PlotOriginY = 0;
+                //SensorChart.PlotWidth = 10000;
+                //SensorChart.PlotHeight = 20;
+                //SensorChart.IsAutoFitEnabled = false;
 
                 // Exception
                 ExceptionSourceText.Text = "Source";
@@ -377,6 +485,17 @@ namespace SensorGraph
                     Stroke = new SolidColorBrush(Colors.Red),
                     StrokeThickness = 1
                 };
+
+                // Dynamic Data Display Chart
+                var A0Line = new EnumerableDataSource<VoltagePoint>(voltagePointCollectionA0);
+                A0Line.SetXMapping(x => DateTimeAxis.ConvertToDouble(x.Date));
+                A0Line.SetYMapping(y => y.Voltage);
+                TimeChart.AddLineGraph(A0Line, Colors.Blue, 2, "Pressure");
+
+                var A1Line = new EnumerableDataSource<VoltagePoint>(voltagePointCollectionA1);
+                A1Line.SetXMapping(x => DateTimeAxis.ConvertToDouble(x.Date));
+                A1Line.SetYMapping(y => y.Voltage);
+                TimeChart.AddLineGraph(A1Line, Colors.Red, 2, "Flow");
             }
             catch (Exception Ex)
             {
@@ -417,8 +536,10 @@ namespace SensorGraph
                         DataLine.Plot(NewXDataArray, NewYDataArray);
 
                         // Add the Lines to the Grid
-                        SensorGrid.Children.Clear();
-                        SensorGrid.Children.Add(DataLine);
+                        //SensorGrid.Children.Clear();
+                        //SensorGrid.Children.Add(DataLine);
+
+
                     }));
                 }
 
@@ -506,6 +627,82 @@ namespace SensorGraph
             }
 
             return Flow;
+        }
+
+        private double ConvertToMilliVolts(int AnalogValue)
+        {
+            string MethodName = "ConvertToFlow()";
+            double MilliVolts = 0;
+
+            // Sensor Properties
+            double MinVolts = 0;
+            double MaxVolts = 10000;
+
+            // Analog Properties
+            double MinAnalog = 0;
+            double MaxAnalog = 1023;
+
+            try
+            {
+                if (AnalogValue > 0)
+                {
+                    // Ratio of Bar/
+                    double Ratio = (MaxVolts - MinVolts) / (MaxAnalog - MinAnalog);
+
+                    // Calculate the Voltage
+                    MilliVolts = (double)(Ratio * AnalogValue);
+
+                    // Two Decimals
+                    MilliVolts = Math.Round(MilliVolts, 2);
+                }
+            }
+            catch (Exception Ex)
+            {
+                ErrorHandling.ShowException(Ex, MethodName, ClassName);
+            }
+
+            return MilliVolts;
+        }
+
+        async void ExportToCSV(string Path)
+        {
+            string MethodName = "ExportToCSV()";
+            string WriteLineData = string.Empty;
+
+            try
+            {
+                _ = Task.Run(() =>
+                {
+                    // Always create a new file
+                    if (File.Exists(Path))
+                    {
+                        File.Delete(Path);
+                    }
+
+                    // Write the Parameter Data per Line
+                    using (var parfileStream = new FileStream(Path, FileMode.CreateNew, FileAccess.Write))
+                    {
+                        // Line Layout
+                        foreach (KeyValuePair<DateTime, double[]> DataPoint in DataCollection)
+                        {
+                            WriteLineData = string.Format("{0};{1};{2}",
+                                            DataPoint.Key,
+                                            DataPoint.Value[0],
+                                            DataPoint.Value[1]);
+
+                            WriteLineData = WriteLineData + Environment.NewLine;
+
+                            // Write the Data as a Byte Array
+                            byte[] WriteLinebytes = Encoding.ASCII.GetBytes(WriteLineData);
+                            parfileStream.Write(WriteLinebytes, 0, WriteLineData.Length);
+                        }
+                    }
+                });
+            }
+            catch (Exception Ex)
+            {
+                ErrorHandling.ShowException(Ex, MethodName, ClassName);
+            }
         }
         #endregion
     }

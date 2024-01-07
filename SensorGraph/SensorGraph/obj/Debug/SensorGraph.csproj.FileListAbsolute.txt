@@ -43,3 +43,5 @@ C:\ValorLocal\Git\GitRepositories\GitHub\Hobby\SensorGraph\SensorGraph\SensorGra
 C:\ValorLocal\Git\GitRepositories\GitHub\Hobby\SensorGraph\SensorGraph\SensorGraph\bin\Debug\System.Reactive.PlatformServices.dll
 C:\ValorLocal\Git\GitRepositories\GitHub\Hobby\SensorGraph\SensorGraph\SensorGraph\bin\Debug\System.Reactive.Windows.Threading.dll
 C:\ValorLocal\Git\GitRepositories\GitHub\Hobby\SensorGraph\SensorGraph\SensorGraph\obj\Debug\SensorGraph.exe.config
+C:\ValorLocal\Git\GitRepositories\GitHub\Hobby\SensorGraph\SensorGraph\SensorGraph\obj\Debug\PopUp\RawData.g.cs
+C:\ValorLocal\Git\GitRepositories\GitHub\Hobby\SensorGraph\SensorGraph\SensorGraph\obj\Debug\PopUp\RawData.baml

@@ -7,7 +7,7 @@ bool LoopDisableInit = true;
 // Sample Interval
 
 // Socket Server Properties (PC)
-IPAddress ServerIP(192, 168, 53, 19);
+IPAddress ServerIP(192, 168, 1, 80);
 // IPAddress ServerIP(127, 0, 0, 1);
 EthernetClient client;
 const int ServerPort = 8267;
