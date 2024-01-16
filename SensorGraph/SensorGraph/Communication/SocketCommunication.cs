@@ -6,6 +6,8 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using QliqFlowBase.ValorUtils.Logging;
+using System.Threading;
 
 namespace SensorGraph.Communication
 {
@@ -43,6 +45,9 @@ namespace SensorGraph.Communication
         // IncomingData
         public int SensorA0Value = 0;
         public int SensorA1Value = 0;
+
+        // Logger Instance
+        Logger loggerSocketCom = null;
         #endregion
 
         #region Constructor
@@ -51,6 +56,7 @@ namespace SensorGraph.Communication
             // Set the References
             thisClassRef = this;
             this.classManager = classManager;
+            loggerSocketCom = LoggingManager.Instance.GetLogger("SocketHandler");
         }
         #endregion
 
@@ -61,10 +67,16 @@ namespace SensorGraph.Communication
 
             try
             {
+                loggerSocketCom.Info("SCM000 Initialize socket communication");
+
                 if (CreateInstances())
                 {
+                    loggerSocketCom.Info("SCM001 Instances created, start the TCP server");
+
                     // Start the Server
                     tcpServer.Start();
+
+                    loggerSocketCom.Info("SCM002 TCP server started");
 
                     // Start Checking for Incoming Clients
                     StartCheckingClients();
@@ -82,7 +94,7 @@ namespace SensorGraph.Communication
 
             try
             {
-
+                loggerSocketCom.Info("SCM003 Exit socket communication");
             }
             catch (Exception Ex)
             {
@@ -103,6 +115,8 @@ namespace SensorGraph.Communication
 
             try
             {
+                loggerSocketCom.Info("SCM004 Create instances");
+
                 // Create the Buffer that stores Client Data
                 DataBuffer = new byte[MaxRecBufferSize];
 
@@ -128,6 +142,8 @@ namespace SensorGraph.Communication
             {
                 if (TaskCheckClients == null || TaskCheckClients.Status != TaskStatus.Running)
                 {
+                    loggerSocketCom.Info("SCM005 Start checking clients");
+
                     EnableCheckClients = true;
                     ClientConnected = false;
                     SensorA0Value = 0;
@@ -151,6 +167,8 @@ namespace SensorGraph.Communication
 
             try
             {
+                loggerSocketCom.Info("SCM005 Stop checking clients");
+
                 // Stop the Loop
                 EnableCheckClients = false;
 
@@ -171,8 +189,12 @@ namespace SensorGraph.Communication
 
             try
             {
+                loggerSocketCom.Info("SCM007 Initialize socket communication");
+
                 while (EnableCheckClients)
                 {
+                    loggerSocketCom.Info("SCM008 Search Clients");
+
                     // Check for Connected Clients
                     tcpClient = tcpServer.AcceptTcpClient();
 
@@ -188,6 +210,9 @@ namespace SensorGraph.Communication
                     // Check if the Client is Connected
                     if (tcpClient.Connected)
                     {
+                        IPEndPoint ipEndPoint = (IPEndPoint)tcpClient.Client.RemoteEndPoint;
+                        loggerSocketCom.Info(string.Format("SCM009 Client with IP-Address {0} connected", ipEndPoint.Address));
+
                         ClientConnected = true;
 
                         // Stop the Loop
@@ -201,6 +226,7 @@ namespace SensorGraph.Communication
                     else
                     {
                         ClientConnected = false;
+                        loggerSocketCom.Info(string.Format("SCM010 New client not connected"));
                     }
                 }
             }
@@ -227,6 +253,8 @@ namespace SensorGraph.Communication
                     // Check for a Valid Connection
                     if (tcpClient.Connected)
                     {
+                        loggerSocketCom.Info(string.Format("SCM011 Async read client"));
+
                         // Clear the Buffer
                         DataBuffer = new byte[MaxRecBufferSize];
 
@@ -260,6 +288,8 @@ namespace SensorGraph.Communication
                 {
                     // Read the Buffer
                     string ReceivedMsg = Encoding.UTF8.GetString(DataBuffer);
+
+                    loggerSocketCom.Info(string.Format("SCM012 Read from client: {0}", ReceivedMsg));
 
                     // Parse the Message
                     if (ReceivedMsg.Length > 0)

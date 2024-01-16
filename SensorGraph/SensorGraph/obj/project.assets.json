@@ -86,6 +86,23 @@
           }
         }
       },
+      "log4net/2.0.15": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "System.Configuration",
+          "System.Web"
+        ],
+        "compile": {
+          "lib/net45/log4net.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net45/log4net.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "Microsoft.Maps.MapControl.WPF/1.0.0.3": {
         "type": "package",
         "compile": {
@@ -270,6 +287,23 @@
         "runtime": {
           "lib/net452/InteractiveDataDisplay.WPF.dll": {
             "related": ".pdb"
+          }
+        }
+      },
+      "log4net/2.0.15": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "System.Configuration",
+          "System.Web"
+        ],
+        "compile": {
+          "lib/net45/log4net.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net45/log4net.dll": {
+            "related": ".xml"
           }
         }
       },
@@ -460,6 +494,23 @@
           }
         }
       },
+      "log4net/2.0.15": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "System.Configuration",
+          "System.Web"
+        ],
+        "compile": {
+          "lib/net45/log4net.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net45/log4net.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "Microsoft.Maps.MapControl.WPF/1.0.0.3": {
         "type": "package",
         "compile": {
@@ -644,6 +695,23 @@
         "runtime": {
           "lib/net452/InteractiveDataDisplay.WPF.dll": {
             "related": ".pdb"
+          }
+        }
+      },
+      "log4net/2.0.15": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "System.Configuration",
+          "System.Web"
+        ],
+        "compile": {
+          "lib/net45/log4net.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net45/log4net.dll": {
+            "related": ".xml"
           }
         }
       },
@@ -834,6 +902,23 @@
           }
         }
       },
+      "log4net/2.0.15": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "System.Configuration",
+          "System.Web"
+        ],
+        "compile": {
+          "lib/net45/log4net.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net45/log4net.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "Microsoft.Maps.MapControl.WPF/1.0.0.3": {
         "type": "package",
         "compile": {
@@ -1013,6 +1098,32 @@
         "lib/net452/InteractiveDataDisplay.WPF.pdb"
       ]
     },
+    "log4net/2.0.15": {
+      "sha512": "GahnO9ZgFka+xYcFwAfIFjW+k86P2nxFoaEpH6t3v4hiGj7tv2ksVZphxCVIHmJxoySS0HeU3dgCW+bSCcfD0A==",
+      "type": "package",
+      "path": "log4net/2.0.15",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net20/log4net.dll",
+        "lib/net20/log4net.xml",
+        "lib/net35/log4net.dll",
+        "lib/net35/log4net.xml",
+        "lib/net40-client/log4net.dll",
+        "lib/net40-client/log4net.xml",
+        "lib/net40/log4net.dll",
+        "lib/net40/log4net.xml",
+        "lib/net45/log4net.dll",
+        "lib/net45/log4net.xml",
+        "lib/netstandard1.3/log4net.dll",
+        "lib/netstandard1.3/log4net.xml",
+        "lib/netstandard2.0/log4net.dll",
+        "lib/netstandard2.0/log4net.xml",
+        "log4net.2.0.15.nupkg.sha512",
+        "log4net.nuspec",
+        "package-icon.png"
+      ]
+    },
     "Microsoft.Maps.MapControl.WPF/1.0.0.3": {
       "sha512": "P5Xys9PH/NIZY8qPASd03VOrZ/eXyS1hSoruR7oM+Otn98DkvUD1LwO8m9Aro4/5jCU1BgRmOTJrIQm5y9UHnQ==",
       "type": "package",
@@ -1153,7 +1264,8 @@
     ".NETFramework,Version=v4.8": [
       "DynamicDataDisplay >= 0.3.0.1",
       "Extended.Wpf.Toolkit >= 4.5.1",
-      "InteractiveDataDisplay.WPF >= 1.0.0"
+      "InteractiveDataDisplay.WPF >= 1.0.0",
+      "log4net >= 2.0.15"
     ]
   },
   "packageFolders": {
@@ -1184,6 +1296,7 @@
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "C:\\ProgramData\\Valor\\Nuget_Packages": {},
+        "\\\\Valor01\\Engineering\\Software\\Valor NuGetPackages": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -1206,6 +1319,10 @@
           "InteractiveDataDisplay.WPF": {
             "target": "Package",
             "version": "[1.0.0, )"
+          },
+          "log4net": {
+            "target": "Package",
+            "version": "[2.0.15, )"
           }
         }
       }

@@ -43,3 +43,5 @@ C:\ValorLocal\Git\GitRepositories\GitHub\Hobby\SensorGraph\SensorGraph\SensorGra
 C:\ValorLocal\Git\GitRepositories\GitHub\Hobby\SensorGraph\SensorGraph\SensorGraph\obj\Release\SensorGraph.csproj.CopyComplete
 C:\ValorLocal\Git\GitRepositories\GitHub\Hobby\SensorGraph\SensorGraph\SensorGraph\obj\Release\SensorGraph.exe
 C:\ValorLocal\Git\GitRepositories\GitHub\Hobby\SensorGraph\SensorGraph\SensorGraph\obj\Release\SensorGraph.pdb
+C:\ValorLocal\Git\GitRepositories\GitHub\Hobby\SensorGraph\SensorGraph\SensorGraph\obj\Release\PopUp\RawData.g.cs
+C:\ValorLocal\Git\GitRepositories\GitHub\Hobby\SensorGraph\SensorGraph\SensorGraph\obj\Release\PopUp\RawData.baml

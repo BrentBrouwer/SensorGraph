@@ -59,8 +59,8 @@ void InitSocket()
   // Arduino Client Properties
   byte ArduinoMAC[] = { 0xA8, 0x61, 0x0A, 0xAE, 0xDF, 0x26 };
   IPAddress ArduinoIP(192, 168, 53, 101);
-  IPAddress ArduinoDns(192, 168, 1, 1);
-  IPAddress ArduinoGateway(192, 168, 1, 254);
+  IPAddress ArduinoDns(192, 168, 53, 1);
+  IPAddress ArduinoGateway(192, 168, 53, 254);
   IPAddress ArduinoSubnet(255, 255, 192, 0);
   int PortNr = 8267;
 

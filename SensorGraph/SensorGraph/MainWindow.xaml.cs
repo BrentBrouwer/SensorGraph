@@ -1,26 +1,18 @@
-﻿using InteractiveDataDisplay.WPF;
-using Microsoft.Research.DynamicDataDisplay;
+﻿using Microsoft.Research.DynamicDataDisplay;
 using Microsoft.Research.DynamicDataDisplay.DataSources;
 using Microsoft.Win32;
+using QliqFlowBase.ValorUtils.Logging;
 using SensorGraph.PopUp;
 using SensorGraph.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace SensorGraph
 {
@@ -35,9 +27,9 @@ namespace SensorGraph
         public static DateTime ExceptionDateTime;
         
 
-        public static void ShowException(Exception Ex, string MethodName, string ClassName)
+        public static void ShowException(Exception Ex, string MethodName, string ClassName, string LogMessage = "")
         {
-            ExceptionMsg = Ex.Message;
+            ExceptionMsg = LogMessage;
             ExceptionDateTime = DateTime.Now;
             ExceptionSource = string.Format("{0}.\n{1}", ClassName, MethodName);
 
@@ -113,6 +105,10 @@ namespace SensorGraph
 
         // Data to Store in Excel
         Dictionary<DateTime, double[]> DataCollection = null;
+
+        // Logger
+        string LogConfigPath = "C:\\DataCollection\\Config\\Log4Net.config";
+        Logger loggerMain = null;
         #endregion
 
         #region Constructor
@@ -134,9 +130,23 @@ namespace SensorGraph
 
             try
             {
+                // Initialize the Logger
+                if (File.Exists(LogConfigPath))
+                {
+                    string Path1 = Path.GetFullPath(Environment.ExpandEnvironmentVariables(LogConfigPath));
+                    LoggingManager test = LoggingManager.Initialize(LogConfigPath);
+                    loggerMain = test.GetLogger("Program");
+                }
+
+
                 if (CreateInstances())
                 {
+                    loggerMain.Info("MW000 Instances created, start initializing");
                     classManager.Init();
+                }
+                else
+                {
+                    loggerMain.Info("MW001 Failed to create instances");
                 }
             }
             catch (Exception Ex)
@@ -157,6 +167,8 @@ namespace SensorGraph
                     UIUpdateTimer.Stop();
                     UIUpdateTimer.Dispose();
                 }
+
+                loggerMain.Info("MW002 Exited mainwindow");
             }
             catch (Exception Ex)
             {
@@ -172,6 +184,8 @@ namespace SensorGraph
 
             try
             {
+                ErrorHandling.ShowException(null, MethodName, ClassName, "MW003 Mainwindow loaded");
+
                 PageLoadedFlag = true;
 
                 InitPageData();
@@ -188,6 +202,8 @@ namespace SensorGraph
 
             try
             {
+                ErrorHandling.ShowException(null, MethodName, ClassName, "MW004 Closing mainwindow");
+
                 Exit();
             }
             catch (Exception Ex)
@@ -397,6 +413,8 @@ namespace SensorGraph
 
             try
             {
+                loggerMain.Info("MW005 Start creating instances");
+
                 // Create the Objects
                 classManager = new ClassManager(thisClassRef);
                 Xvalues = new double[1] { 0 };
@@ -467,6 +485,8 @@ namespace SensorGraph
                 ExceptionTimeValue.Text = "-";
                 ExceptionText.Text = "Exception\nMessage";
                 ExceptionValue.Text = "-";
+
+                loggerMain.Info("MW006 Mainwindow initialized");
             }
             catch (Exception Ex)
             {
@@ -496,6 +516,8 @@ namespace SensorGraph
                 A1Line.SetXMapping(x => DateTimeAxis.ConvertToDouble(x.Date));
                 A1Line.SetYMapping(y => y.Voltage);
                 TimeChart.AddLineGraph(A1Line, Colors.Red, 2, "Flow");
+
+                loggerMain.Info("MW007 Chart lines created");
             }
             catch (Exception Ex)
             {
