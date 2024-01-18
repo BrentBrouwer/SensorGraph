@@ -79,6 +79,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Communication\SocketClient.cs" />
     <Compile Include="PopUp\RawData.xaml.cs">
       <DependentUpon>RawData.xaml</DependentUpon>
     </Compile>

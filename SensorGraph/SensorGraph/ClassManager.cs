@@ -21,7 +21,8 @@ namespace SensorGraph
 
         // The Instances Controlled by the ClassManager
         public ArduinoCOM arduinoCOM = null;
-        public SocketCommunication socketCommunication = null;
+        //public SocketCommunication socketCommunication = null;
+        public SocketClient socketClient = null;
         #endregion
 
         #region Constructor
@@ -45,7 +46,8 @@ namespace SensorGraph
                 {
                     // Initialize the Instances
                     //arduinoCOM.Init();
-                    socketCommunication.Init();
+                    //socketCommunication.Init();
+                    //socketClient.Init();
                 }
             }
             catch (Exception Ex)
@@ -66,6 +68,12 @@ namespace SensorGraph
                     arduinoCOM.Exit();
                     arduinoCOM = null;
                 }
+
+                if (socketClient != null) 
+                {
+                    socketClient.Exit();
+                    socketClient = null;
+                }
             }
             catch (Exception Ex)
             {
@@ -83,8 +91,9 @@ namespace SensorGraph
             try
             {
                 // Create the Instances that are Controlled by the Class Manager
-                socketCommunication = new SocketCommunication(thisClassRef);
+                //socketCommunication = new SocketCommunication(thisClassRef);
                 arduinoCOM = new ArduinoCOM(thisClassRef);
+                socketClient = new SocketClient(thisClassRef);
 
                 RetValue = true;
             }

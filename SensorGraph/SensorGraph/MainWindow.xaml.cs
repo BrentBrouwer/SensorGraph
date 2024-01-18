@@ -184,11 +184,14 @@ namespace SensorGraph
 
             try
             {
-                ErrorHandling.ShowException(null, MethodName, ClassName, "MW003 Mainwindow loaded");
+                //ErrorHandling.ShowException(null, MethodName, ClassName, "MW003 Mainwindow loaded");
 
                 PageLoadedFlag = true;
 
                 InitPageData();
+
+                // Start Connecting to the Arduino Server
+                classManager.socketClient.Init();
             }
             catch (Exception Ex)
             {
@@ -202,7 +205,7 @@ namespace SensorGraph
 
             try
             {
-                ErrorHandling.ShowException(null, MethodName, ClassName, "MW004 Closing mainwindow");
+                //ErrorHandling.ShowException(null, MethodName, ClassName, "MW004 Closing mainwindow");
 
                 Exit();
             }
@@ -219,7 +222,7 @@ namespace SensorGraph
             try
             {
                 // Socket Communication
-                if (PageLoadedFlag && classManager.socketCommunication != null)
+                if (PageLoadedFlag && classManager.socketClient != null)
                 {
                     thisClassRef.Dispatcher.Invoke(new Action(() => 
                     {
@@ -240,11 +243,11 @@ namespace SensorGraph
                         }
 
                         // Data
-                        if (rawDataWindow != null)
-                        {
-                            rawDataWindow.ArduinoConnectValue.Text = classManager.socketCommunication.ClientConnected ? "Connected" : "Disconnected";
-                            rawDataWindow.ArduinoRawDataValue.Text = classManager.socketCommunication.IncomingData;
-                        }
+                        //if (rawDataWindow != null)
+                        //{
+                        //    rawDataWindow.ArduinoConnectValue.Text = classManager.socketClient.ClientConnected ? "Connected" : "Disconnected";
+                        //    rawDataWindow.ArduinoRawDataValue.Text = classManager.socketCommunication.IncomingData;
+                        //}
                     }));
                 }
             }
@@ -261,8 +264,8 @@ namespace SensorGraph
             try
             {
                 // Take the Current Value of Sensors A0 and A1
-                A0TakenSample = classManager.socketCommunication.SensorA0Value;
-                A1TakenSample = classManager.socketCommunication.SensorA1Value;
+                A0TakenSample = classManager.socketClient.SensorA0Value;
+                A1TakenSample = classManager.socketClient.SensorA1Value;
 
                 // Take the TimeStamp
                 DateTime CurrentTimeStamp = DateTime.Now;
