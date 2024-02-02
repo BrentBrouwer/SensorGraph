@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\ValorLocal\Git\GitRepositories\GitHub\Hobby\SensorGraph\SensorGraph\SensorGraph\obj\Release\
+D:\Software\Valor\GitRepos\GitHub\SensorGraph\SensorGraph\SensorGraph\obj\Release\
 SensorGraph
 none
 false
 TRACE
-C:\ValorLocal\Git\GitRepositories\GitHub\Hobby\SensorGraph\SensorGraph\SensorGraph\App.xaml
+D:\Software\Valor\GitRepos\GitHub\SensorGraph\SensorGraph\SensorGraph\App.xaml
 21250386919
 
-10-659014744
-2729680496
+112110843188
+301716224248
 MainWindow.xaml;PopUp\RawData.xaml;
 
-False
+True
 

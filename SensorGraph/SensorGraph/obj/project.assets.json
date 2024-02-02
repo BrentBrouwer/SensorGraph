@@ -1269,24 +1269,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Valor\\.nuget\\packages\\": {},
+    "C:\\Users\\Brent Brouwer\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\ValorLocal\\Git\\GitRepositories\\GitHub\\Hobby\\SensorGraph\\SensorGraph\\SensorGraph\\SensorGraph.csproj",
+      "projectUniqueName": "D:\\Software\\Valor\\GitRepos\\GitHub\\SensorGraph\\SensorGraph\\SensorGraph\\SensorGraph.csproj",
       "projectName": "SensorGraph",
-      "projectPath": "C:\\ValorLocal\\Git\\GitRepositories\\GitHub\\Hobby\\SensorGraph\\SensorGraph\\SensorGraph\\SensorGraph.csproj",
-      "packagesPath": "C:\\Users\\Valor\\.nuget\\packages\\",
-      "outputPath": "C:\\ValorLocal\\Git\\GitRepositories\\GitHub\\Hobby\\SensorGraph\\SensorGraph\\SensorGraph\\obj\\",
+      "projectPath": "D:\\Software\\Valor\\GitRepos\\GitHub\\SensorGraph\\SensorGraph\\SensorGraph\\SensorGraph.csproj",
+      "packagesPath": "C:\\Users\\Brent Brouwer\\.nuget\\packages\\",
+      "outputPath": "D:\\Software\\Valor\\GitRepos\\GitHub\\SensorGraph\\SensorGraph\\SensorGraph\\obj\\",
       "projectStyle": "PackageReference",
       "skipContentFileWrite": true,
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\Valor\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Brent Brouwer\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -1295,8 +1295,7 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\ProgramData\\Valor\\Nuget_Packages": {},
-        "\\\\Valor01\\Engineering\\Software\\Valor NuGetPackages": {},
+        "\\\\192.168.1.2\\Engineering\\Software\\Valor NuGetPackages": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {

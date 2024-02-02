@@ -45,3 +45,13 @@ C:\ValorLocal\Git\GitRepositories\GitHub\Hobby\SensorGraph\SensorGraph\SensorGra
 C:\ValorLocal\Git\GitRepositories\GitHub\Hobby\SensorGraph\SensorGraph\SensorGraph\obj\Release\SensorGraph.pdb
 C:\ValorLocal\Git\GitRepositories\GitHub\Hobby\SensorGraph\SensorGraph\SensorGraph\obj\Release\PopUp\RawData.g.cs
 C:\ValorLocal\Git\GitRepositories\GitHub\Hobby\SensorGraph\SensorGraph\SensorGraph\obj\Release\PopUp\RawData.baml
+D:\Software\Valor\GitRepos\GitHub\SensorGraph\SensorGraph\SensorGraph\obj\Release\SensorGraph.csproj.AssemblyReference.cache
+D:\Software\Valor\GitRepos\GitHub\SensorGraph\SensorGraph\SensorGraph\obj\Release\SensorGraph.csproj.SuggestedBindingRedirects.cache
+D:\Software\Valor\GitRepos\GitHub\SensorGraph\SensorGraph\SensorGraph\obj\Release\SensorGraph.exe.config
+D:\Software\Valor\GitRepos\GitHub\SensorGraph\SensorGraph\SensorGraph\obj\Release\MainWindow.g.cs
+D:\Software\Valor\GitRepos\GitHub\SensorGraph\SensorGraph\SensorGraph\obj\Release\PopUp\RawData.g.cs
+D:\Software\Valor\GitRepos\GitHub\SensorGraph\SensorGraph\SensorGraph\obj\Release\App.g.cs
+D:\Software\Valor\GitRepos\GitHub\SensorGraph\SensorGraph\SensorGraph\obj\Release\SensorGraph_MarkupCompile.cache
+D:\Software\Valor\GitRepos\GitHub\SensorGraph\SensorGraph\SensorGraph\obj\Release\SensorGraph_MarkupCompile.lref
+D:\Software\Valor\GitRepos\GitHub\SensorGraph\SensorGraph\SensorGraph\obj\Release\SensorGraph.exe
+D:\Software\Valor\GitRepos\GitHub\SensorGraph\SensorGraph\SensorGraph\obj\Release\SensorGraph.pdb

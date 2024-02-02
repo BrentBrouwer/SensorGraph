@@ -1,20 +1,20 @@
 {
   "version": 2,
-  "dgSpecHash": "/4te3hmBa4STS3TIlW3ARNHYBzcNNHtXpOQRr0KFfvhmriUrH+SxofvJNpIybFU8rI0Vx5QqGWdKQCJrSCJa2w==",
+  "dgSpecHash": "4btE0wJqygBYCzUpTW3sNWmFh6c7X1txnGTPye3nFTy12iiZd8YcrXVhiJnmYdtEdDFe8kO3Z8hT/6hGSqCIqw==",
   "success": true,
-  "projectFilePath": "C:\\ValorLocal\\Git\\GitRepositories\\GitHub\\Hobby\\SensorGraph\\SensorGraph\\SensorGraph\\SensorGraph.csproj",
+  "projectFilePath": "D:\\Software\\Valor\\GitRepos\\GitHub\\SensorGraph\\SensorGraph\\SensorGraph\\SensorGraph.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\Valor\\.nuget\\packages\\dynamicdatadisplay\\0.3.0.1\\dynamicdatadisplay.0.3.0.1.nupkg.sha512",
-    "C:\\Users\\Valor\\.nuget\\packages\\extended.wpf.toolkit\\4.5.1\\extended.wpf.toolkit.4.5.1.nupkg.sha512",
-    "C:\\Users\\Valor\\.nuget\\packages\\interactivedatadisplay.wpf\\1.0.0\\interactivedatadisplay.wpf.1.0.0.nupkg.sha512",
-    "C:\\Users\\Valor\\.nuget\\packages\\log4net\\2.0.15\\log4net.2.0.15.nupkg.sha512",
-    "C:\\Users\\Valor\\.nuget\\packages\\microsoft.maps.mapcontrol.wpf\\1.0.0.3\\microsoft.maps.mapcontrol.wpf.1.0.0.3.nupkg.sha512",
-    "C:\\Users\\Valor\\.nuget\\packages\\system.reactive\\3.1.1\\system.reactive.3.1.1.nupkg.sha512",
-    "C:\\Users\\Valor\\.nuget\\packages\\system.reactive.core\\3.1.1\\system.reactive.core.3.1.1.nupkg.sha512",
-    "C:\\Users\\Valor\\.nuget\\packages\\system.reactive.interfaces\\3.1.1\\system.reactive.interfaces.3.1.1.nupkg.sha512",
-    "C:\\Users\\Valor\\.nuget\\packages\\system.reactive.linq\\3.1.1\\system.reactive.linq.3.1.1.nupkg.sha512",
-    "C:\\Users\\Valor\\.nuget\\packages\\system.reactive.platformservices\\3.1.1\\system.reactive.platformservices.3.1.1.nupkg.sha512",
-    "C:\\Users\\Valor\\.nuget\\packages\\system.reactive.windows.threading\\3.1.1\\system.reactive.windows.threading.3.1.1.nupkg.sha512"
+    "C:\\Users\\Brent Brouwer\\.nuget\\packages\\dynamicdatadisplay\\0.3.0.1\\dynamicdatadisplay.0.3.0.1.nupkg.sha512",
+    "C:\\Users\\Brent Brouwer\\.nuget\\packages\\extended.wpf.toolkit\\4.5.1\\extended.wpf.toolkit.4.5.1.nupkg.sha512",
+    "C:\\Users\\Brent Brouwer\\.nuget\\packages\\interactivedatadisplay.wpf\\1.0.0\\interactivedatadisplay.wpf.1.0.0.nupkg.sha512",
+    "C:\\Users\\Brent Brouwer\\.nuget\\packages\\log4net\\2.0.15\\log4net.2.0.15.nupkg.sha512",
+    "C:\\Users\\Brent Brouwer\\.nuget\\packages\\microsoft.maps.mapcontrol.wpf\\1.0.0.3\\microsoft.maps.mapcontrol.wpf.1.0.0.3.nupkg.sha512",
+    "C:\\Users\\Brent Brouwer\\.nuget\\packages\\system.reactive\\3.1.1\\system.reactive.3.1.1.nupkg.sha512",
+    "C:\\Users\\Brent Brouwer\\.nuget\\packages\\system.reactive.core\\3.1.1\\system.reactive.core.3.1.1.nupkg.sha512",
+    "C:\\Users\\Brent Brouwer\\.nuget\\packages\\system.reactive.interfaces\\3.1.1\\system.reactive.interfaces.3.1.1.nupkg.sha512",
+    "C:\\Users\\Brent Brouwer\\.nuget\\packages\\system.reactive.linq\\3.1.1\\system.reactive.linq.3.1.1.nupkg.sha512",
+    "C:\\Users\\Brent Brouwer\\.nuget\\packages\\system.reactive.platformservices\\3.1.1\\system.reactive.platformservices.3.1.1.nupkg.sha512",
+    "C:\\Users\\Brent Brouwer\\.nuget\\packages\\system.reactive.windows.threading\\3.1.1\\system.reactive.windows.threading.3.1.1.nupkg.sha512"
   ],
   "logs": []
 }

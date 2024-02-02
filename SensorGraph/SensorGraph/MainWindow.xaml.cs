@@ -1,7 +1,7 @@
 ﻿using Microsoft.Research.DynamicDataDisplay;
 using Microsoft.Research.DynamicDataDisplay.DataSources;
 using Microsoft.Win32;
-using QliqFlowBase.ValorUtils.Logging;
+//using QliqFlowBase.ValorUtils.Logging;
 using SensorGraph.PopUp;
 using SensorGraph.ViewModel;
 using System;
@@ -108,7 +108,7 @@ namespace SensorGraph
 
         // Logger
         string LogConfigPath = "C:\\DataCollection\\Config\\Log4Net.config";
-        Logger loggerMain = null;
+        //Logger loggerMain = null;
         #endregion
 
         #region Constructor
@@ -134,19 +134,19 @@ namespace SensorGraph
                 if (File.Exists(LogConfigPath))
                 {
                     string Path1 = Path.GetFullPath(Environment.ExpandEnvironmentVariables(LogConfigPath));
-                    LoggingManager test = LoggingManager.Initialize(LogConfigPath);
-                    loggerMain = test.GetLogger("Program");
+                    //LoggingManager test = LoggingManager.Initialize(LogConfigPath);
+                    //loggerMain = test.GetLogger("Program");
                 }
 
 
                 if (CreateInstances())
                 {
-                    loggerMain.Info("MW000 Instances created, start initializing");
+                    //loggerMain.Info("MW000 Instances created, start initializing");
                     classManager.Init();
                 }
                 else
                 {
-                    loggerMain.Info("MW001 Failed to create instances");
+                    //loggerMain.Info("MW001 Failed to create instances");
                 }
             }
             catch (Exception Ex)
@@ -168,7 +168,7 @@ namespace SensorGraph
                     UIUpdateTimer.Dispose();
                 }
 
-                loggerMain.Info("MW002 Exited mainwindow");
+                //loggerMain.Info("MW002 Exited mainwindow");
             }
             catch (Exception Ex)
             {
@@ -416,7 +416,7 @@ namespace SensorGraph
 
             try
             {
-                loggerMain.Info("MW005 Start creating instances");
+                //loggerMain.Info("MW005 Start creating instances");
 
                 // Create the Objects
                 classManager = new ClassManager(thisClassRef);
@@ -489,7 +489,7 @@ namespace SensorGraph
                 ExceptionText.Text = "Exception\nMessage";
                 ExceptionValue.Text = "-";
 
-                loggerMain.Info("MW006 Mainwindow initialized");
+                //loggerMain.Info("MW006 Mainwindow initialized");
             }
             catch (Exception Ex)
             {
@@ -520,7 +520,7 @@ namespace SensorGraph
                 A1Line.SetYMapping(y => y.Voltage);
                 TimeChart.AddLineGraph(A1Line, Colors.Red, 2, "Flow");
 
-                loggerMain.Info("MW007 Chart lines created");
+                //loggerMain.Info("MW007 Chart lines created");
             }
             catch (Exception Ex)
             {
