@@ -106,9 +106,9 @@ namespace SensorGraph
         // Data to Store in Excel
         Dictionary<DateTime, double[]> DataCollection = null;
 
-        // Scale minimum and maximum values
-        int GraphScaleMin = 0;
-        int GraphScaleMax = 5000;
+        // Signal Factors
+        int Signal1Factor = 1;
+        int Signal2Factor = 1;
         #endregion
 
         #region Constructor
@@ -274,8 +274,8 @@ namespace SensorGraph
 
                 thisClassRef.Dispatcher.Invoke(new Action(() =>
                 {
-                    voltagePointCollectionA0.Add(new VoltagePoint(DateTime.Now, ConvertToMilliVolts(A0TakenSample)));
-                    voltagePointCollectionA1.Add(new VoltagePoint(DateTime.Now, ConvertToMilliVolts(A1TakenSample)));
+                    voltagePointCollectionA0.Add(new VoltagePoint(DateTime.Now, ConvertToMilliVolts(A0TakenSample * Signal1Factor)));
+                    voltagePointCollectionA1.Add(new VoltagePoint(DateTime.Now, ConvertToMilliVolts(A1TakenSample * Signal2Factor)));
                 }));
 
                 // Add the Data to the Dictionary
@@ -394,11 +394,11 @@ namespace SensorGraph
             try
             {
                 // Get the Current Values
-                if (int.TryParse(ScaleMinValue.Text, out int MinValue) &&
-                    int.TryParse(ScaleMaxValue.Text, out int MaxValue))
+                if (int.TryParse(Signal1FactorValue.Text, out int Signal1FactorLocal) &&
+                    int.TryParse(Signal1FactorValue.Text, out int Signal2FactorLocal))
                 {
-                    Exit();
-                    Init();
+                    Signal1Factor = Signal1FactorLocal;
+                    Signal2Factor = Signal2FactorLocal;
                 }
             }
             catch (Exception Ex)
@@ -466,14 +466,14 @@ namespace SensorGraph
                 StartStopBtn.Background = Brushes.LightGreen;
                 ShowRawDataBtn.Content = "Show Raw Data";
                 ExportToCSVBtn.Content = "Export To CSV File";
-                ScaleMinText.Text = "Scale Min Value";
-                ScaleMinValue.Text = "0";
-                ScaleMaxText.Text = "Scale Max Value";
-                ScaleMaxValue.Text = "5000";
+                Signal1FactorText.Text = "Signal 1\nFactor (Flow)";
+                Signal1FactorValue.Text = "1";
+                Signal2FactorText.Text = "Signal 2 Factor\n(Pressure)";
+                Signal2FactorValue.Text = "1";
                 ConfirmScaleSettingsBtn.Content = "Confirm Scale\nSettings";
-                ScaleMinValueSP.Visibility = Visibility.Collapsed;
-                ScaleMaxValueSP.Visibility = Visibility.Collapsed;
-                ConfirmScaleSettingsBtn.Visibility = Visibility.Collapsed;
+                //Signal1FactorSP.Visibility = Visibility.Collapsed;
+                //Signal2FactorSP.Visibility = Visibility.Collapsed;
+                //ConfirmScaleSettingsBtn.Visibility = Visibility.Collapsed;
 
                 // Chart
                 //SensorChart.Title = "Time vs MilliVolts";
