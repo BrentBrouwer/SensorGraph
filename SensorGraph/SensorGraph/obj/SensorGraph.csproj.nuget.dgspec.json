@@ -27,6 +27,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "D:\\Software\\Valor\\GitRepos\\GitLab\\QliqOS\\qliqflowbase\\QliqFlowBase\\bin\\Release": {},
           "\\\\192.168.1.2\\Engineering\\Software\\Valor NuGetPackages": {},
           "https://api.nuget.org/v3/index.json": {}
         },

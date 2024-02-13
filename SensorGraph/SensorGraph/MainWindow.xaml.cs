@@ -106,9 +106,9 @@ namespace SensorGraph
         // Data to Store in Excel
         Dictionary<DateTime, double[]> DataCollection = null;
 
-        // Logger
-        string LogConfigPath = "C:\\DataCollection\\Config\\Log4Net.config";
-        //Logger loggerMain = null;
+        // Scale minimum and maximum values
+        int GraphScaleMin = 0;
+        int GraphScaleMax = 5000;
         #endregion
 
         #region Constructor
@@ -130,23 +130,10 @@ namespace SensorGraph
 
             try
             {
-                // Initialize the Logger
-                if (File.Exists(LogConfigPath))
-                {
-                    string Path1 = Path.GetFullPath(Environment.ExpandEnvironmentVariables(LogConfigPath));
-                    //LoggingManager test = LoggingManager.Initialize(LogConfigPath);
-                    //loggerMain = test.GetLogger("Program");
-                }
-
-
                 if (CreateInstances())
                 {
-                    //loggerMain.Info("MW000 Instances created, start initializing");
                     classManager.Init();
-                }
-                else
-                {
-                    //loggerMain.Info("MW001 Failed to create instances");
+                    classManager.socketClient.Init();
                 }
             }
             catch (Exception Ex)
@@ -184,14 +171,9 @@ namespace SensorGraph
 
             try
             {
-                //ErrorHandling.ShowException(null, MethodName, ClassName, "MW003 Mainwindow loaded");
-
                 PageLoadedFlag = true;
 
                 InitPageData();
-
-                // Start Connecting to the Arduino Server
-                classManager.socketClient.Init();
             }
             catch (Exception Ex)
             {
@@ -205,8 +187,6 @@ namespace SensorGraph
 
             try
             {
-                //ErrorHandling.ShowException(null, MethodName, ClassName, "MW004 Closing mainwindow");
-
                 Exit();
             }
             catch (Exception Ex)
@@ -406,6 +386,26 @@ namespace SensorGraph
                 ErrorHandling.ShowException(Ex, MethodName, ClassName);
             }
         }
+
+        private void ConfirmScaleSettingsBtn_Click(object sender, RoutedEventArgs e)
+        {
+            string MethodName = "ConfirmScaleSettingsBtn_Click";
+
+            try
+            {
+                // Get the Current Values
+                if (int.TryParse(ScaleMinValue.Text, out int MinValue) &&
+                    int.TryParse(ScaleMaxValue.Text, out int MaxValue))
+                {
+                    Exit();
+                    Init();
+                }
+            }
+            catch (Exception Ex)
+            {
+                ErrorHandling.ShowException(Ex, MethodName, ClassName);
+            }
+        }
         #endregion
 
         #region Methods
@@ -416,8 +416,6 @@ namespace SensorGraph
 
             try
             {
-                //loggerMain.Info("MW005 Start creating instances");
-
                 // Create the Objects
                 classManager = new ClassManager(thisClassRef);
                 Xvalues = new double[1] { 0 };
@@ -468,6 +466,14 @@ namespace SensorGraph
                 StartStopBtn.Background = Brushes.LightGreen;
                 ShowRawDataBtn.Content = "Show Raw Data";
                 ExportToCSVBtn.Content = "Export To CSV File";
+                ScaleMinText.Text = "Scale Min Value";
+                ScaleMinValue.Text = "0";
+                ScaleMaxText.Text = "Scale Max Value";
+                ScaleMaxValue.Text = "5000";
+                ConfirmScaleSettingsBtn.Content = "Confirm Scale\nSettings";
+                ScaleMinValueSP.Visibility = Visibility.Collapsed;
+                ScaleMaxValueSP.Visibility = Visibility.Collapsed;
+                ConfirmScaleSettingsBtn.Visibility = Visibility.Collapsed;
 
                 // Chart
                 //SensorChart.Title = "Time vs MilliVolts";
@@ -519,8 +525,6 @@ namespace SensorGraph
                 A1Line.SetXMapping(x => DateTimeAxis.ConvertToDouble(x.Date));
                 A1Line.SetYMapping(y => y.Voltage);
                 TimeChart.AddLineGraph(A1Line, Colors.Red, 2, "Flow");
-
-                //loggerMain.Info("MW007 Chart lines created");
             }
             catch (Exception Ex)
             {
@@ -656,12 +660,12 @@ namespace SensorGraph
 
         private double ConvertToMilliVolts(int AnalogValue)
         {
-            string MethodName = "ConvertToFlow()";
+            string MethodName = "ConvertToMilliVolts()";
             double MilliVolts = 0;
 
             // Sensor Properties
             double MinVolts = 0;
-            double MaxVolts = 10000;
+            double MaxVolts = 5000;
 
             // Analog Properties
             double MinAnalog = 0;
