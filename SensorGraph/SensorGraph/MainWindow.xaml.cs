@@ -395,7 +395,7 @@ namespace SensorGraph
             {
                 // Get the Current Values
                 if (int.TryParse(Signal1FactorValue.Text, out int Signal1FactorLocal) &&
-                    int.TryParse(Signal1FactorValue.Text, out int Signal2FactorLocal))
+                    int.TryParse(Signal2FactorValue.Text, out int Signal2FactorLocal))
                 {
                     Signal1Factor = Signal1FactorLocal;
                     Signal2Factor = Signal2FactorLocal;
@@ -466,9 +466,9 @@ namespace SensorGraph
                 StartStopBtn.Background = Brushes.LightGreen;
                 ShowRawDataBtn.Content = "Show Raw Data";
                 ExportToCSVBtn.Content = "Export To CSV File";
-                Signal1FactorText.Text = "Signal 1\nFactor (Flow)";
+                Signal1FactorText.Text = "Signal 1\nFactor (Pressure)";
                 Signal1FactorValue.Text = "1";
-                Signal2FactorText.Text = "Signal 2 Factor\n(Pressure)";
+                Signal2FactorText.Text = "Signal 2 Factor\n(Flow)";
                 Signal2FactorValue.Text = "1";
                 ConfirmScaleSettingsBtn.Content = "Confirm Scale\nSettings";
                 //Signal1FactorSP.Visibility = Visibility.Collapsed;
